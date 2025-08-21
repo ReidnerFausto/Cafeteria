@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cardápio - Cafeteria</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#624e33",
+              secondary: "#14160f",
+              tertiary: "#77895b",
+              "light-bg": "#f9f9f9",
+              "card-bg": "#ffffff",
+              "accent-bg": "#edf2ea",
+              "dark-bg": "#14160f",
+            },
+            fontFamily: {
+              sans: ["Plus Jakarta Sans", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+
+  <body class="font-sans bg-light-bg leading-relaxed">
+    <div class="flex min-h-screen">
+      <div
+        id="sidebar"
+        class="hidden md:flex flex-col w-64 bg-card-bg p-8 border-r border-gray-200 fixed top-0 bottom-0 left-0 overflow-y-auto transition-all duration-200 ease-in-out"
+      >
+        <div class="mb-8 flex justify-between items-center">
+          <h3 id="sidebar-title" class="text-2xl font-bold text-primary transition-all duration-200 ease-in-out whitespace-nowrap overflow-hidden">Café Gestor</h3>
+          <button id="sidebar-toggle-btn" class="text-gray-500 hover:text-secondary transition-colors duration-200 ease-in-out">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+              <path
+                fill-rule="evenodd"
+                d="M3.75 6.75h16.5a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1 0-1.5ZM3.75 12h16.5a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1 0-1.5ZM3.75 17.25h16.5a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1 0-1.5Z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </button>
+        </div>
+        <nav id="sidebar-nav" class="flex flex-col space-y-4">
+          <a href="dashboard.html" class="relative block py-3 pl-12 pr-4 rounded-lg hover:bg-accent-bg transition-colors duration-200 ease-in-out text-secondary font-medium">
+            <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.601 8.601a.75.75 0 0 1-1.06 1.06L12 5.461 3.909 13.5a.75.75 0 1 1-1.06-1.06l8.601-8.601Z" />
+              <path d="m12 7.022 6.132 6.132-1.298 1.299-5.32-5.32-5.32 5.32-1.299-1.298L12 7.022Z" />
+              <path
+                fill-rule="evenodd"
+                d="M12.558 4.774a.75.75 0 0 1 1.484.226l-.427 1.708a.75.75 0 0 1-1.484-.226l.427-1.708ZM7.5 14.25a.75.75 0 0 1 .75-.75h.75a.75.75 0 0 1 .75.75v3.75h2.25V14.25a.75.75 0 0 1 .75-.75h.75a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-.75-.75h-9a.75.75 0 0 1-.75-.75v-4.5Z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            <span class="sidebar-text-js transition-all duration-200 ease-in-out whitespace-nowrap">Início</span>
+          </a>
+          <a href="pedidos.html" class="relative block py-3 pl-12 pr-4 rounded-lg hover:bg-accent-bg transition-colors duration-200 ease-in-out text-secondary font-medium">
+            <svg
+              class="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 flex-shrink-0"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
+            </svg>
+            <span class="sidebar-text-js transition-all duration-200 ease-in-out whitespace-nowrap">Pedidos</span>
+          </a>
+          <a href="cardapio.html" class="relative block py-3 pl-12 pr-4 rounded-lg bg-accent-bg font-semibold transition-colors duration-200 ease-in-out text-secondary">
+            <img
+              id="vector-0"
+              class="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 flex-shrink-0"
+              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAVCAYAAABCIB6VAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAK2SURBVHgBrVTrbRNBEJ7Zi0QQSbwxINnwg0sFXCqIU0FMBSEVxKkgTgU4HTgVxFRgU4FNBT5+oFhCxAtB4ukdvtmzjW2d8xAZabXP+Wbm25lhWiL26aPErEQ7WG4J8Qs9Gl85JvmAue/Fv3eDb508fZ4DK61VDJsqMe+TZEDC5LBOMdxYw2LELFNDKbF0vDcnbuDSOWAFZI6OsakoEHtpMZl3I6LO7ON5J2wM7cSIr4rhPTUkeC/CB6rDTwDqOWpngHzqf1DDQSwkWh1VhTkBQAEK8SwVGJ2RRD0FCUbgFLOoc7EX3l35wyYxGvJv3h1+cj1bXq9uPiwcQrEiZCgzGGhIxzEChKvg/dDAzc1yoWNk1Pw8uGrCQArwtiFfYRtby7+s/ZJkKSpvdfAPEtj6jlvrtYrh7bvJjR/YhYxnnO2HRBw4c3xXJ2lVsjD7U+rE7oDgnbXq6sYtrS+r2cmkHbhGko8LFsj/E5x/HjqcfjhzeI6qq3qRtcHU2BQwiGjwIVwnUJ6SUnOgubZrG8UbsO1bCvY4qnFCwKABpZO/7oKJZGAFwYaqZQPg1xFrVuZjD2ZncgHp67haNpvDLDuBUhWacmA1irlcz2hyhjpmI4XWg7sUueQhmdqCNPwJco8HZHLKjNqU8gCOVUVrVARR18spLmaloi6hIuEya8gn19oCg0vvmsVnxW6okDPehsRWOZxG3c93L1axDB5wFqWKAw4Y87n8lJgTORKM3Pmx47yMHKBQ637ECqJ97VJlqFqFKPGXWp0IFo2KT5b1klwuVEJF/pSuPrgEDXqGDqnjN49JDaDbDcfnt/Y4eK0fCUqwiAMgxK8a/fl08mF0jTDdIPjIc80SdKzt4AlLH6Q3LwdfB/4LWAmAkavwsqftEhzvieftZdzdSSaNKozSrdN9inYwe7uGFuQvds1XRc8UyxEAAAAASUVORKCYII="
+            />
+            <span class="sidebar-text-js transition-all duration-200 ease-in-out whitespace-nowrap">Cardápio</span>
+          </a>
+          <a href="promocoes.html" class="relative block py-3 pl-12 pr-4 rounded-lg hover:bg-accent-bg transition-colors duration-200 ease-in-out text-secondary font-medium">
+            <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                fill-rule="evenodd"
+                d="M5.25 2.25a3 3 0 0 0-3 3v4.303a3 3 0 0 0 .879 2.121l9.58 9.58a3 3 0 0 0 4.242 0l4.303-4.303a3 3 0 0 0 0-4.242l-9.58-9.58A3 3 0 0 0 9.553 2.25H5.25ZM6 6a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 0 1.5H6.75A.75.75 0 0 1 6 6Z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            <span class="sidebar-text-js transition-all duration-200 ease-in-out whitespace-nowrap">Promoções</span>
+          </a>
+          <a href="configuracoes.html" class="relative block py-3 pl-12 pr-4 rounded-lg hover:bg-accent-bg transition-colors duration-200 ease-in-out text-secondary font-medium">
+            <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                fill-rule="evenodd"
+                d="M11.078 2.25c-.917 0-1.699.663-1.85 1.567L9.05 5.85c-.09.55-.525.95-1.078.95H4.88c-.969 0-1.75.781-1.75 1.75v3.69c0 .553.398.99.942 1.078l2.128.355c.53.088.922.527.922 1.078v3.69c0 .969.781 1.75 1.75 1.75h3.69c.553 0 .99.398 1.078.942l.355 2.128c.088.53.527.922 1.078.922h3.69c.969 0 1.75-.781 1.75-1.75v-3.69c0-.553-.398-.99-.942-1.078l-2.128-.355c-.53-.088-.922-.527-.922-1.078V9.19c0-.969-.781-1.75-1.75-1.75h-3.69c-.553 0-.99-.398-1.078-.942L12.93 3.817c-.151-.904-.933-1.567-1.85-1.567h-.004ZM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            <span class="sidebar-text-js transition-all duration-200 ease-in-out whitespace-nowrap">Configurações</span>
+          </a>
+        </nav>
+        <div class="mt-auto pt-8 border-t border-gray-200">
+          <a href="login.html" class="relative block py-3 pl-12 pr-4 rounded-lg hover:bg-accent-bg transition-colors duration-200 ease-in-out text-red-500 font-medium">
+            <svg
+              class="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 flex-shrink-0"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6.75a2.25 2.25 0 0 1 2.25 2.25v13.5a2.25 2.25 0 0 1-2.25 2.25H10.5a2.25 2.25 0 0 1-2.25-2.25V15m-3.75-3 3.75-3m-3.75 3h11.25"
+              />
+            </svg>
+            <span class="sidebar-text-js transition-all duration-200 ease-in-out whitespace-nowrap">Sair</span>
+          </a>
+        </div>
+      </div>
+
+      <main id="main-content" class="flex-1 p-4 md:p-10 md:ml-64 lg:flex lg:gap-8 transition-all duration-200 ease-in-out">
+        <div class="flex-1">
+          <div class="flex items-center justify-between mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-secondary">Cardápio</h1>
+          </div>
+          <div class="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <div>
+              <label for="category-filter" class="block text-sm font-medium text-gray-700 mb-2">Filtrar por Categoria:</label>
+              <select
+                id="category-filter"
+                class="w-full md:w-auto px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tertiary focus:border-transparent transition-colors duration-200 ease-in-out"
+              >
+                <option value="todos">Todos</option>
+              </select>
+            </div>
+            <a
+              href="personalizar-cardapio.html"
+              class="flex items-center justify-center gap-2 bg-tertiary text-card-bg font-bold px-4 py-2 rounded-lg hover:bg-[#6c7d58] transition-colors duration-200 ease-in-out"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+                <path
+                  d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z"
+                />
+                <path
+                  d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z"
+                />
+              </svg>
+              <span>Personalizar</span>
+            </a>
+          </div>
+          <div class="bg-card-bg rounded-lg shadow-sm border border-[#d6e5d1] overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="min-w-full divide-y divide-gray-200 table-fixed">
+                <thead class="bg-gray-50">
+                  <tr>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Item</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Categoria</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Preço</th>
+                    <th scope="col" class="hidden md:table-cell px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-1/3">Descrição</th>
+                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Adicionar</th>
+                  </tr>
+                </thead>
+                <tbody class="bg-card-bg divide-y divide-gray-200" id="menu-items-table"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <aside class="w-full lg:w-80 p-4 mt-8 lg:mt-0 bg-accent-bg rounded-lg border border-[#d6e5d1] flex flex-col h-fit sticky top-4 md:top-10">
+          <h2 class="text-xl font-bold text-secondary mb-4">Seu Pedido</h2>
+          <div id="order-list" class="flex-1 space-y-2 mb-4 overflow-y-auto max-h-[60vh]">
+            <div id="empty-cart-message" class="text-center text-gray-500 italic text-sm">O pedido está vazio.</div>
+          </div>
+          <div class="border-t pt-4 border-gray-300">
+            <div class="flex justify-between items-center mb-4">
+              <span class="text-base font-bold text-secondary">Total:</span>
+              <span id="order-total" class="text-xl font-bold text-tertiary">R$ 0,00</span>
+            </div>
+            <button id="finalize-order-btn" class="w-full py-3 bg-tertiary text-card-bg rounded-lg font-bold hover:bg-[#6c7d58] transition-colors duration-200 ease-in-out text-sm">
+              Finalizar Pedido
+            </button>
+          </div>
+        </aside>
+      </main>
+    </div>
+
+    <div
+      id="customize-modal-overlay"
+      class="fixed inset-0 bg-gray-900 bg-opacity-50 hidden items-center justify-center p-4 z-50 transition-all duration-200 ease-in-out opacity-0 scale-95 flex"
+    >
+      <div
+        id="customize-modal-content"
+        class="relative bg-card-bg rounded-xl shadow-2xl w-full max-w-2xl mx-auto flex flex-col max-h-[90vh] transition-all duration-200 ease-in-out"
+      >
+        <div class="flex justify-between items-center p-4 border-b border-gray-200">
+          <h2 id="customize-modal-title" class="text-xl font-semibold text-secondary"></h2>
+          <button id="close-customize-modal-btn" class="text-gray-500 hover:text-secondary text-2xl font-bold leading-none transition-colors duration-200 ease-in-out">
+            &times;
+          </button>
+        </div>
+        <div class="p-6 space-y-6 overflow-y-auto">
+          <div id="item-details" class="flex items-center gap-4 mb-4">
+            <img id="item-image-modal" class="w-20 h-20 object-cover rounded-lg" src="" alt="Imagem do Item" />
+            <div class="flex-1">
+              <h3 id="item-name-modal" class="text-xl font-bold text-secondary"></h3>
+              <p id="item-price-modal" class="text-lg text-tertiary font-medium"></p>
+              <p id="item-description-modal" class="text-sm text-gray-500 mt-2"></p>
+            </div>
+          </div>
+          <div id="options-container" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
+        </div>
+        <div class="flex justify-end items-center p-4 border-t border-gray-200 space-x-2">
+          <button
+            id="cancel-customize-modal-btn"
+            class="bg-gray-200 text-gray-800 font-medium py-2 px-6 rounded-lg shadow-sm hover:bg-gray-300 transition-colors duration-200 ease-in-out"
+          >
+            Cancelar
+          </button>
+          <button id="add-to-order-modal-btn" class="bg-tertiary text-card-bg font-medium py-2 px-6 rounded-lg shadow-sm hover:opacity-80 transition-opacity">
+            Adicionar ao Pedido
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // --- LÓGICA GERAL (Sidebar, Submenu, Retrátil) ---
+        const sidebar = document.getElementById("sidebar");
+        const mainContent = document.getElementById("main-content");
+        const sidebarToggleBtn = document.getElementById("sidebar-toggle-btn");
+        const sidebarTextElements = document.querySelectorAll(".sidebar-text-js");
+        const sidebarTitle = document.getElementById("sidebar-title");
+
+        function toggleSidebar() {
+          const isCurrentlyExpanded = sidebar.classList.contains("w-64");
+
+          if (isCurrentlyExpanded) {
+            // Fechar sidebar
+            sidebar.classList.remove("w-64", "p-8");
+            sidebar.classList.add("w-20", "p-4");
+            mainContent.classList.remove("md:ml-64");
+            mainContent.classList.add("md:ml-20");
+            sidebarTitle.classList.add("opacity-0", "max-w-0");
+            sidebarTextElements.forEach((text) => text.classList.add("opacity-0", "max-w-0"));
+          } else {
+            // Abrir sidebar
+            sidebar.classList.remove("w-20", "p-4");
+            sidebar.classList.add("w-64", "p-8");
+            mainContent.classList.remove("md:ml-20");
+            mainContent.classList.add("md:ml-64");
+            sidebarTitle.classList.remove("opacity-0", "max-w-0");
+            sidebarTextElements.forEach((text) => text.classList.remove("opacity-0", "max-w-0"));
+          }
+        }
+
+        sidebarToggleBtn.addEventListener("click", toggleSidebar);
+
+        function setActiveLink() {
+          const currentPage = window.location.pathname.split("/").pop() || "dashboard.html";
+          const navLinks = document.querySelectorAll("#sidebar-nav a");
+          navLinks.forEach((link) => {
+            const linkPage = link.getAttribute("href").split("/").pop();
+            if (linkPage === currentPage) {
+              link.classList.remove("font-medium");
+              link.classList.add("bg-accent-bg", "font-semibold");
+            }
+          });
+        }
+
+        setActiveLink();
+
+        // --- LÓGICA ESPECÍFICA DA PÁGINA DE PEDIDOS ---
+        const menuItemsTable = document.getElementById("menu-items-table");
+        const orderList = document.getElementById("order-list");
+        const orderTotalSpan = document.getElementById("order-total");
+        const finalizeOrderBtn = document.getElementById("finalize-order-btn");
+        const emptyCartMessage = document.getElementById("empty-cart-message");
+        const categoryFilter = document.getElementById("category-filter");
+
+        // Elementos do Modal de Personalização
+        const customizeModalOverlay = document.getElementById("customize-modal-overlay");
+        const customizeModalTitle = document.getElementById("customize-modal-title");
+        const closeCustomizeModalBtn = document.getElementById("close-customize-modal-btn");
+        const cancelCustomizeModalBtn = document.getElementById("cancel-customize-modal-btn");
+        const addToOrderModalBtn = document.getElementById("add-to-order-modal-btn");
+        const itemImageModal = document.getElementById("item-image-modal");
+        const itemNameModal = document.getElementById("item-name-modal");
+        const itemPriceModal = document.getElementById("item-price-modal");
+        const itemDescriptionModal = document.getElementById("item-description-modal");
+        const optionsContainer = document.getElementById("options-container");
+
+        let currentCustomizingItem = null;
+        let currentOrder = [];
+
+        // Itens de Cardápio de Cafeteria
+        const menuItems = [
+          {
+            id: 1,
+            name: "Café Expresso",
+            category: "Bebidas Quentes",
+            price: 5.5,
+            description: "Expresso curto e intenso, ideal para começar o dia.",
+            options: {
+              Tamanho: ["Pequeno", "Médio", "Grande"],
+              Leite: ["Sem Leite", "Leite Integral", "Leite de Aveia"],
+              Açúcar: ["Sem Açúcar", "Com Açúcar", "Adoçante"],
+            },
+            image: "https://images.unsplash.com/photo-1517592983141-8a9d15024b33?q=80&w=1770&auto=format&fit=crop",
+          },
+          {
+            id: 2,
+            name: "Latte de Baunilha",
+            category: "Bebidas Quentes",
+            price: 12.0,
+            description: "Expresso com leite vaporizado e xarope de baunilha.",
+            options: {
+              Tamanho: ["Médio", "Grande"],
+              Leite: ["Leite Integral", "Leite Desnatado", "Leite de Amêndoas"],
+              "Adicionais (Opcional)": ["Chantilly (+R$ 2,00)", "Canela em Pó", "Sem Adicionais"],
+            },
+            image: "https://images.unsplash.com/photo-1596489353069-424d13b48325?q=80&w=1974&auto=format&fit=crop",
+          },
+          {
+            id: 3,
+            name: "Iced Caramel Macchiato",
+            category: "Bebidas Geladas",
+            price: 15.0,
+            description: "Café com gelo, leite, xarope de caramelo e um toque de caramelo no topo.",
+            options: {
+              Leite: ["Leite Integral", "Leite de Coco"],
+              Adicionais: ["Calda de Caramelo Extra (+R$ 1,50)", "Calda de Chocolate", "Sem Adicionais"],
+            },
+            image: "https://images.unsplash.com/photo-1541334991285-d6d7ac616198?q=80&w=1887&auto=format&fit=crop",
+          },
+          {
+            id: 4,
+            name: "Pão de Queijo",
+            category: "Salgados",
+            price: 6.0,
+            description: "Tradicional pão de queijo, crocante por fora e macio por dentro.",
+            options: {
+              Recheio: ["Sem Recheio", "Doce de Leite (+R$ 3,00)", "Goiabada (+R$ 2,50)"],
+            },
+            image: "https://images.unsplash.com/photo-1591871936301-209e51c6b12d?q=80&w=1770&auto=format&fit=crop",
+          },
+          {
+            id: 5,
+            name: "Bolo de Cenoura com Chocolate",
+            category: "Doces",
+            price: 8.5,
+            description: "Fatia de bolo úmido com calda generosa de chocolate.",
+            options: {
+              "Servido com": ["Sem Adicionais", "Bola de Sorvete (+R$ 4,00)"],
+            },
+            image: "https://images.unsplash.com/photo-1627993072973-1991d092323e?q=80&w=1887&auto=format&fit=crop",
+          },
+        ];
+
+        function populateCategoryFilter() {
+          const categories = [...new Set(menuItems.map((item) => item.category))];
+          categories.forEach((category) => {
+            const option = document.createElement("option");
+            option.value = category;
+            option.textContent = category;
+            categoryFilter.appendChild(option);
+          });
+        }
+
+        function renderMenuItems(filterCategory = "todos") {
+          menuItemsTable.innerHTML = ""; // Limpa a tabela
+
+          const filteredItems = filterCategory === "todos" ? menuItems : menuItems.filter((item) => item.category === filterCategory);
+
+          filteredItems.forEach((item) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td class="px-6 py-4 text-sm font-medium text-secondary flex items-center gap-4">
+                  <img src="${item.image}" alt="${item.name}" class="w-12 h-12 object-cover rounded-full" />
+                  <span>${item.name}</span>
+                </td>
+                <td class="px-6 py-4 text-sm text-tertiary">${item.category}</td>
+                <td class="px-6 py-4 text-sm text-secondary font-medium">R$ ${item.price.toFixed(2).replace(".", ",")}</td>
+                <td class="hidden md:table-cell px-6 py-4 text-sm text-tertiary max-w-xs break-words">${item.description}</td>
+                <td class="px-6 py-4 text-right text-sm font-medium">
+                  <button data-item-id="${
+                    item.id
+                  }" class="add-to-order-btn flex items-center gap-2 px-4 py-2 rounded-lg bg-tertiary text-card-bg font-medium hover:bg-[#6c7d58] transition-colors duration-200 ease-in-out float-right">
+                    Adicionar
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
+                      <path fill-rule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
+                    </svg>
+                  </button>
+                </td>
+              `;
+            menuItemsTable.appendChild(row);
+          });
+        }
+
+        function renderOrder() {
+          orderList.innerHTML = ""; // Limpa a lista antes de renderizar
+          if (currentOrder.length === 0) {
+            orderList.innerHTML = `<div id="empty-cart-message" class="text-center text-gray-500 italic text-sm">O pedido está vazio.</div>`;
+          } else {
+            currentOrder.forEach((orderItem) => {
+              const itemTotal = orderItem.price * orderItem.quantity;
+              const optionsHtml = Object.entries(orderItem.selectedOptions)
+                .map(([key, value]) => `<div class="text-xs text-gray-500">- ${key}: ${value}</div>`)
+                .join("");
+
+              const orderItemDiv = document.createElement("div");
+              orderItemDiv.dataset.uid = orderItem.uid;
+              orderItemDiv.classList.add("bg-card-bg", "p-3", "rounded-lg", "shadow-sm", "flex", "items-center", "gap-3");
+              orderItemDiv.innerHTML = `
+                  <img src="${orderItem.image}" alt="${orderItem.name}" class="w-12 h-12 rounded-full object-cover"/>
+                  <div class="flex-1">
+                    <div class="font-semibold text-sm text-secondary">${orderItem.name}</div>
+                    ${optionsHtml}
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <button data-uid="${
+                      orderItem.uid
+                    }" class="quantity-btn decrement bg-gray-200 text-gray-800 rounded-full w-5 h-5 flex items-center justify-center transition-colors duration-200 ease-in-out text-xs">-</button>
+                    <span class="font-bold text-sm">${orderItem.quantity}</span>
+                    <button data-uid="${
+                      orderItem.uid
+                    }" class="quantity-btn increment bg-gray-200 text-gray-800 rounded-full w-5 h-5 flex items-center justify-center transition-colors duration-200 ease-in-out text-xs">+</button>
+                  </div>
+                  <div class="font-bold text-sm text-tertiary">R$ ${itemTotal.toFixed(2).replace(".", ",")}</div>
+                `;
+              orderList.appendChild(orderItemDiv);
+            });
+          }
+          calculateTotal();
+        }
+
+        function calculateTotal() {
+          const total = currentOrder.reduce((sum, item) => sum + item.price * item.quantity, 0);
+          orderTotalSpan.textContent = `R$ ${total.toFixed(2).replace(".", ",")}`;
+        }
+
+        function showCustomizeModal(item) {
+          currentCustomizingItem = item;
+          customizeModalTitle.textContent = item.name;
+          itemImageModal.src = item.image;
+          itemNameModal.textContent = item.name;
+          itemPriceModal.textContent = `R$ ${item.price.toFixed(2).replace(".", ",")}`;
+          itemDescriptionModal.textContent = item.description;
+
+          optionsContainer.innerHTML = "";
+          for (const key in item.options) {
+            const optionGroup = document.createElement("div");
+            optionGroup.classList.add("space-y-2");
+            const title = document.createElement("div");
+            title.classList.add("font-medium", "text-secondary", "text-sm", "mt-2");
+            title.textContent = key;
+            optionGroup.appendChild(title);
+
+            item.options[key].forEach((option, index) => {
+              const optionHtml = `
+                  <label class="flex items-center gap-2 cursor-pointer p-2 bg-accent-bg rounded-lg hover:bg-tertiary/10 transition-colors duration-200 ease-in-out text-sm">
+                    <input type="radio" name="${key}" value="${option}" class="form-radio text-tertiary focus:ring-tertiary" ${index === 0 ? "checked" : ""}>
+                    <span class="font-normal text-secondary">${option}</span>
+                  </label>
+                `;
+              optionGroup.innerHTML += optionHtml;
+            });
+            optionsContainer.appendChild(optionGroup);
+          }
+          customizeModalOverlay.classList.remove("hidden");
+          setTimeout(() => {
+            customizeModalOverlay.classList.remove("opacity-0", "scale-95");
+            customizeModalOverlay.classList.add("opacity-100", "scale-100");
+          }, 10); // Pequeno delay para a transição funcionar
+        }
+
+        function hideCustomizeModal() {
+          customizeModalOverlay.classList.remove("opacity-100", "scale-100");
+          customizeModalOverlay.classList.add("opacity-0", "scale-95");
+          setTimeout(() => {
+            customizeModalOverlay.classList.add("hidden");
+            currentCustomizingItem = null;
+          }, 200); // Deve ser igual à duração da transição
+        }
+
+        // Event listener para abrir o modal
+        menuItemsTable.addEventListener("click", (e) => {
+          const btn = e.target.closest(".add-to-order-btn");
+          if (btn) {
+            const itemId = parseInt(btn.dataset.itemId);
+            const itemToCustomize = menuItems.find((item) => item.id === itemId);
+            if (itemToCustomize) {
+              showCustomizeModal(itemToCustomize);
+            }
+          }
+        });
+
+        // Event listener para adicionar item ao pedido do modal
+        addToOrderModalBtn.addEventListener("click", () => {
+          const selectedOptions = {};
+          optionsContainer.querySelectorAll("input:checked").forEach((input) => {
+            selectedOptions[input.name] = input.value;
+          });
+
+          let finalPrice = currentCustomizingItem.price;
+          // Lógica de cálculo de preço com base em adicionais
+          Object.values(selectedOptions).forEach((value) => {
+            if (value.includes("(+R$")) {
+              const priceMatch = value.match(/\(\+R\$\s*([\d,]+)\)/);
+              if (priceMatch && priceMatch[1]) {
+                finalPrice += parseFloat(priceMatch[1].replace(",", "."));
+              }
+            }
+          });
+
+          const newOrderItem = {
+            ...currentCustomizingItem,
+            price: finalPrice,
+            selectedOptions,
+            quantity: 1,
+            uid: Date.now(),
+          };
+          currentOrder.push(newOrderItem);
+          hideCustomizeModal();
+          renderOrder();
+        });
+
+        closeCustomizeModalBtn.addEventListener("click", hideCustomizeModal);
+        cancelCustomizeModalBtn.addEventListener("click", hideCustomizeModal);
+
+        // Gerencia quantidade do pedido
+        orderList.addEventListener("click", (e) => {
+          const btn = e.target.closest(".quantity-btn");
+          if (btn) {
+            const uid = Number(btn.dataset.uid);
+            const itemIndex = currentOrder.findIndex((item) => item.uid === uid);
+
+            if (itemIndex !== -1) {
+              const orderItem = currentOrder[itemIndex];
+              if (btn.classList.contains("increment")) {
+                orderItem.quantity++;
+              } else if (btn.classList.contains("decrement")) {
+                orderItem.quantity--;
+                if (orderItem.quantity <= 0) {
+                  currentOrder.splice(itemIndex, 1);
+                }
+              }
+              renderOrder();
+            }
+          }
+        });
+
+        finalizeOrderBtn.addEventListener("click", () => {
+          if (currentOrder.length > 0) {
+            const total = currentOrder.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            const orderSummary = currentOrder
+              .map((item) => {
+                const optionsLines = Object.entries(item.selectedOptions)
+                  .map(([key, value]) => `   - ${key}: ${value}`)
+                  .join("\n");
+                return `${item.quantity}x ${item.name} (R$ ${item.price.toFixed(2).replace(".", ",")})\n${optionsLines}`;
+              })
+              .join("\n\n");
+
+            alert(`Pedido finalizado!\n\nItens:\n${orderSummary}\n\nTotal: R$ ${total.toFixed(2).replace(".", ",")}\n\nObrigado pela preferência!`);
+            currentOrder = [];
+            renderOrder();
+          } else {
+            alert("O pedido está vazio. Adicione itens para finalizar.");
+          }
+        });
+
+        // Event listener para o filtro
+        categoryFilter.addEventListener("change", (e) => {
+          renderMenuItems(e.target.value);
+        });
+
+        // Inicialização
+        populateCategoryFilter();
+        renderMenuItems();
+        renderOrder();
+      });
+    </script>
+  </body>
+</html>
