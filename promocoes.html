@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Promoções - Café Gestor</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#624e33",
+              secondary: "#14160f",
+              tertiary: "#77895b",
+              "light-bg": "#f9f9f9",
+              "card-bg": "#ffffff",
+              "accent-bg": "#edf2ea",
+              "dark-bg": "#14160f",
+            },
+            fontFamily: {
+              sans: ["Plus Jakarta Sans", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+
+  <body class="font-sans bg-light-bg leading-relaxed">
+    <div class="flex min-h-screen">
+      <div
+        id="sidebar"
+        class="hidden md:flex flex-col w-64 bg-card-bg p-8 border-r border-gray-200 fixed top-0 bottom-0 left-0 overflow-y-auto overflow-x-hidden transition-all duration-200 ease-in-out"
+      >
+        <div class="mb-8 flex justify-between items-center">
+          <h3 id="sidebar-title" class="text-2xl font-bold text-primary transition-all duration-200 ease-in-out whitespace-nowrap overflow-hidden">Café Gestor</h3>
+          <button id="sidebar-toggle-btn" class="text-gray-500 hover:text-secondary transition-colors duration-200 ease-in-out">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+              <path
+                fill-rule="evenodd"
+                d="M3.75 6.75h16.5a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1 0-1.5ZM3.75 12h16.5a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1 0-1.5ZM3.75 17.25h16.5a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1 0-1.5Z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </button>
+        </div>
+        <nav id="sidebar-nav" class="flex flex-col space-y-4">
+          <a href="dashboard.html" class="relative block py-3 pl-12 pr-4 rounded-lg hover:bg-accent-bg transition-colors duration-200 ease-in-out text-secondary font-medium">
+            <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.601 8.601a.75.75 0 0 1-1.06 1.06L12 5.461 3.909 13.5a.75.75 0 1 1-1.06-1.06l8.601-8.601Z" />
+              <path d="m12 7.022 6.132 6.132-1.298 1.299-5.32-5.32-5.32 5.32-1.299-1.298L12 7.022Z" />
+              <path
+                fill-rule="evenodd"
+                d="M12.558 4.774a.75.75 0 0 1 1.484.226l-.427 1.708a.75.75 0 0 1-1.484-.226l.427-1.708ZM7.5 14.25a.75.75 0 0 1 .75-.75h.75a.75.75 0 0 1 .75.75v3.75h2.25V14.25a.75.75 0 0 1 .75-.75h.75a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-.75-.75h-9a.75.75 0 0 1-.75-.75v-4.5Z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            <span class="sidebar-text-js transition-all duration-200 ease-in-out whitespace-nowrap">Início</span>
+          </a>
+          <a href="pedidos.html" class="relative block py-3 pl-12 pr-4 rounded-lg hover:bg-accent-bg transition-colors duration-200 ease-in-out text-secondary font-medium">
+            <svg
+              class="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 flex-shrink-0"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
+            </svg>
+            <span class="sidebar-text-js transition-all duration-200 ease-in-out whitespace-nowrap">Pedidos</span>
+          </a>
+          <a href="cardapio.html" class="relative block py-3 pl-12 pr-4 rounded-lg hover:bg-accent-bg transition-colors duration-200 ease-in-out text-secondary font-medium">
+            <img
+              id="vector-0"
+              class="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 flex-shrink-0"
+              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAVCAYAAABCIB6VAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAK2SURBVHgBrVTrbRNBEJ7Zi0QQSbwxINnwg0sFXCqIU0FMBSEVxKkgTgU4HTgVxFRgU4FNBT5+oFhCxAtB4ukdvtmzjW2d8xAZabXP+Wbm25lhWiL26aPErEQ7WG4J8Qs9Gl85JvmAue/Fv3eDb508fZ4DK61VDJsqMe+TZEDC5LBOMdxYw2LELFNDKbF0vDcnbuDSOWAFZI6OsakoEHtpMZl3I6LO7ON5J2wM7cSIr4rhPTUkeC/CB6rDTwDqOWpngHzqf1DDQSwkWh1VhTkBQAEK8SwVGJ2RRD0FCUbgFLOoc7EX3l35wyYxGvJv3h1+cj1bXq9uPiwcQrEiZCgzGGhIxzEChKvg/dDAzc1yoWNk1Pw8uGrCQArwtiFfYRtby7+s/ZJkKSpvdfAPEtj6jlvrtYrh7bvJjR/YhYxnnO2HRBw4c3xXJ2lVsjD7U+rE7oDgnbXq6sYtrS+r2cmkHbhGko8LFsj/E5x/HjqcfjhzeI6qq3qRtcHU2BQwiGjwIVwnUJ6SUnOgubZrG8UbsO1bCvY4qnFCwKABpZO/7oKJZGAFwYaqZQPg1xFrVuZjD2ZncgHp67haNpvDLDuBUhWacmA1irlcz2hyhjpmI4XWg7sUueQhmdqCNPwJco8HZHLKjNqU8gCOVUVrVARR18spLmaloi6hIuEya8gn19oCg0vvmsVnxW6okDPehsRWOZxG3c93L1axDB5wFqWKAw4Y87n8lJgTORKM3Pmx47yMHKBQ637ECqJ97VJlqFqFKPGXWp0IFo2KT5b1klwuVEJF/pSuPrgEDXqGDqnjN49JDaDbDcfnt/Y4eK0fCUqwiAMgxK8a/fl08mF0jTDdIPjIc80SdKzt4AlLH6Q3LwdfB/4LWAmAkavwsqftEhzvieftZdzdSSaNKozSrdN9inYwe7uGFuQvds1XRc8UyxEAAAAASUVORKCYII="
+            />
+            <span class="sidebar-text-js transition-all duration-200 ease-in-out whitespace-nowrap">Cardápio</span>
+          </a>
+          <a href="promocoes.html" class="relative block py-3 pl-12 pr-4 rounded-lg bg-accent-bg font-semibold transition-colors duration-200 ease-in-out text-secondary">
+            <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                fill-rule="evenodd"
+                d="M5.25 2.25a3 3 0 0 0-3 3v4.303a3 3 0 0 0 .879 2.121l9.58 9.58a3 3 0 0 0 4.242 0l4.303-4.303a3 3 0 0 0 0-4.242l-9.58-9.58A3 3 0 0 0 9.553 2.25H5.25ZM6 6a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 0 1.5H6.75A.75.75 0 0 1 6 6Z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            <span class="sidebar-text-js transition-all duration-200 ease-in-out whitespace-nowrap">Promoções</span>
+          </a>
+          <a href="configuracoes.html" class="relative block py-3 pl-12 pr-4 rounded-lg hover:bg-accent-bg transition-colors duration-200 ease-in-out text-secondary font-medium">
+            <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                fill-rule="evenodd"
+                d="M11.078 2.25c-.917 0-1.699.663-1.85 1.567L9.05 5.85c-.09.55-.525.95-1.078.95H4.88c-.969 0-1.75.781-1.75 1.75v3.69c0 .553.398.99.942 1.078l2.128.355c.53.088.922.527.922 1.078v3.69c0 .969.781 1.75 1.75 1.75h3.69c.553 0 .99.398 1.078.942l.355 2.128c.088.53.527.922 1.078.922h3.69c.969 0 1.75-.781 1.75-1.75v-3.69c0-.553-.398-.99-.942-1.078l-2.128-.355c-.53-.088-.922-.527-.922-1.078V9.19c0-.969-.781-1.75-1.75-1.75h-3.69c-.553 0-.99-.398-1.078-.942L12.93 3.817c-.151-.904-.933-1.567-1.85-1.567h-.004ZM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            <span class="sidebar-text-js transition-all duration-200 ease-in-out whitespace-nowrap">Configurações</span>
+          </a>
+        </nav>
+        <div class="mt-auto pt-8 border-t border-gray-200">
+          <a href="login.html" class="relative block py-3 pl-12 pr-4 rounded-lg hover:bg-accent-bg transition-colors duration-200 ease-in-out text-red-500 font-medium">
+            <svg
+              class="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 flex-shrink-0"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6.75a2.25 2.25 0 0 1 2.25 2.25v13.5a2.25 2.25 0 0 1-2.25 2.25H10.5a2.25 2.25 0 0 1-2.25-2.25V15m-3.75-3 3.75-3m-3.75 3h11.25"
+              />
+            </svg>
+            <span class="sidebar-text-js transition-all duration-200 ease-in-out whitespace-nowrap">Sair</span>
+          </a>
+        </div>
+      </div>
+
+      <main id="main-content" class="flex-1 p-4 md:p-10 md:ml-64 transition-all duration-200 ease-in-out">
+        <h1 class="text-3xl md:text-4xl font-bold text-secondary mb-8">Gerenciar Promoções</h1>
+
+        <div class="bg-card-bg rounded-lg shadow-sm border border-[#d6e5d1] p-6 mb-8">
+          <div class="mb-4 border-b border-gray-200">
+            <nav class="-mb-px flex gap-6" aria-label="Tabs">
+              <button id="tab-item" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-primary text-primary">Promoção por Item</button>
+              <button
+                id="tab-category"
+                class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+              >
+                Promoção por Categoria
+              </button>
+            </nav>
+          </div>
+
+          <div id="panel-item">
+            <form id="promo-item-form" class="space-y-4">
+              <div>
+                <label for="select-item" class="block text-sm font-medium text-gray-700 mb-1">Selecione o Item</label>
+                <select id="select-item" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring-tertiary sm:text-sm"></select>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700">Tipo de Desconto</label>
+                <fieldset class="mt-2 flex gap-6">
+                  <div class="flex items-center gap-2">
+                    <input
+                      id="item-type-percentage"
+                      name="item-discount-type"
+                      type="radio"
+                      value="percentage"
+                      checked
+                      class="h-4 w-4 border-gray-300 text-primary focus:ring-tertiary"
+                    /><label for="item-type-percentage">Porcentagem (%)</label>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <input id="item-type-fixed" name="item-discount-type" type="radio" value="fixed" class="h-4 w-4 border-gray-300 text-primary focus:ring-tertiary" /><label
+                      for="item-type-fixed"
+                      >Valor Fixo (R$)</label
+                    >
+                  </div>
+                </fieldset>
+              </div>
+              <div>
+                <label for="item-discount-value" class="block text-sm font-medium text-gray-700 mb-1">Valor do Desconto</label>
+                <input
+                  type="number"
+                  id="item-discount-value"
+                  required
+                  class="block w-full md:w-1/2 rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring-tertiary sm:text-sm"
+                />
+              </div>
+              <button type="submit" class="w-full sm:w-auto px-6 py-2 bg-tertiary text-card-bg font-bold rounded-lg hover:bg-[#6c7d58] transition-colors">Criar Promoção</button>
+            </form>
+          </div>
+
+          <div id="panel-category" class="hidden">
+            <form id="promo-category-form" class="space-y-4">
+              <div>
+                <label for="select-category" class="block text-sm font-medium text-gray-700 mb-1">Selecione a Categoria</label>
+                <select id="select-category" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring-tertiary sm:text-sm"></select>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700">Tipo de Desconto</label>
+                <fieldset class="mt-2 flex gap-6">
+                  <div class="flex items-center gap-2">
+                    <input
+                      id="cat-type-percentage"
+                      name="cat-discount-type"
+                      type="radio"
+                      value="percentage"
+                      checked
+                      class="h-4 w-4 border-gray-300 text-primary focus:ring-tertiary"
+                    /><label for="cat-type-percentage">Porcentagem (%)</label>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <input id="cat-type-fixed" name="cat-discount-type" type="radio" value="fixed" class="h-4 w-4 border-gray-300 text-primary focus:ring-tertiary" /><label
+                      for="cat-type-fixed"
+                      >Valor Fixo (R$)</label
+                    >
+                  </div>
+                </fieldset>
+              </div>
+              <div>
+                <label for="cat-discount-value" class="block text-sm font-medium text-gray-700 mb-1">Valor do Desconto</label>
+                <input
+                  type="number"
+                  id="cat-discount-value"
+                  required
+                  class="block w-full md:w-1/2 rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring-tertiary sm:text-sm"
+                />
+              </div>
+              <button type="submit" class="w-full sm:w-auto px-6 py-2 bg-tertiary text-card-bg font-bold rounded-lg hover:bg-[#6c7d58] transition-colors">Criar Promoção</button>
+            </form>
+          </div>
+        </div>
+
+        <div>
+          <h2 class="text-2xl font-bold text-secondary mb-6">Promoções Ativas</h2>
+          <div id="active-promos-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const sidebar = document.getElementById("sidebar");
+        const mainContent = document.getElementById("main-content");
+        const sidebarToggleBtn = document.getElementById("sidebar-toggle-btn");
+        const sidebarTextElements = document.querySelectorAll(".sidebar-text-js");
+        const sidebarTitle = document.getElementById("sidebar-title");
+
+        function toggleSidebar() {
+          // ... (código do sidebar)
+        }
+        if (sidebarToggleBtn) sidebarToggleBtn.addEventListener("click", toggleSidebar);
+
+        function setActiveLink() {
+          const currentPage = window.location.pathname.split("/").pop() || "dashboard.html";
+          const navLinks = document.querySelectorAll("#sidebar-nav a");
+          navLinks.forEach((link) => {
+            const linkPage = link.getAttribute("href").split("/").pop();
+            link.classList.remove("bg-accent-bg", "font-semibold");
+            link.classList.add("font-medium");
+            if (linkPage === currentPage) {
+              link.classList.remove("font-medium");
+              link.classList.add("bg-accent-bg", "font-semibold");
+            }
+          });
+        }
+
+        // --- LÓGICA DA PÁGINA DE PROMOÇÕES ---
+        const menuItems = [
+          { id: 1, name: "Café Expresso", category: "Bebidas Quentes" },
+          { id: 2, name: "Latte de Baunilha", category: "Bebidas Quentes" },
+          { id: 3, name: "Iced Caramel Macchiato", category: "Bebidas Geladas" },
+          { id: 4, name: "Pão de Queijo", category: "Salgados" },
+          { id: 5, name: "Bolo de Cenoura com Chocolate", category: "Doces" },
+        ];
+
+        let activePromotions = [
+          { id: 1, type: "item", targetId: 2, targetName: "Latte de Baunilha", discountType: "percentage", value: 15 },
+          { id: 2, type: "category", targetId: "Salgados", targetName: "Salgados", discountType: "fixed", value: 2.5 },
+        ];
+
+        const tabItem = document.getElementById("tab-item");
+        const tabCategory = document.getElementById("tab-category");
+        const panelItem = document.getElementById("panel-item");
+        const panelCategory = document.getElementById("panel-category");
+        const selectItem = document.getElementById("select-item");
+        const selectCategory = document.getElementById("select-category");
+        const activePromosContainer = document.getElementById("active-promos-container");
+        const promoItemForm = document.getElementById("promo-item-form");
+        const promoCategoryForm = document.getElementById("promo-category-form");
+
+        // --- Funções de Renderização ---
+        function renderActivePromotions() {
+          activePromosContainer.innerHTML = "";
+          if (activePromotions.length === 0) {
+            activePromosContainer.innerHTML = `<p class="text-gray-500 italic md:col-span-3">Nenhuma promoção ativa no momento.</p>`;
+            return;
+          }
+          activePromotions.forEach((promo) => {
+            const discountText = promo.discountType === "percentage" ? `${promo.value}% OFF` : `R$ ${promo.value.toFixed(2).replace(".", ",")} OFF`;
+            const targetText = promo.type === "item" ? `no item <strong>${promo.targetName}</strong>` : `em <strong>${promo.targetName}</strong>`;
+
+            const promoCard = document.createElement("div");
+            promoCard.className = "bg-accent-bg border border-tertiary/30 rounded-lg p-4 flex flex-col";
+            promoCard.innerHTML = `
+                    <div class="flex-grow">
+                        <p class="text-2xl font-bold text-tertiary">${discountText}</p>
+                        <p class="text-secondary mt-1">Aplicado ${targetText}</p>
+                    </div>
+                    <button data-promo-id="${promo.id}" class="deactivate-promo-btn mt-4 w-full text-center bg-red-500 text-white py-2 rounded-lg font-semibold hover:bg-red-600 transition-colors text-sm">Desativar</button>
+                `;
+            activePromosContainer.appendChild(promoCard);
+          });
+        }
+
+        function populateSelects() {
+          menuItems.forEach((item) => {
+            const option = document.createElement("option");
+            option.value = item.id;
+            option.textContent = item.name;
+            selectItem.appendChild(option);
+          });
+
+          const categories = [...new Set(menuItems.map((item) => item.category))];
+          categories.forEach((category) => {
+            const option = document.createElement("option");
+            option.value = category;
+            option.textContent = category;
+            selectCategory.appendChild(option);
+          });
+        }
+
+        // --- Lógica das Abas ---
+        tabItem.addEventListener("click", () => {
+          tabItem.classList.add("border-primary", "text-primary");
+          tabItem.classList.remove("border-transparent", "text-gray-500", "hover:text-gray-700", "hover:border-gray-300");
+          tabCategory.classList.add("border-transparent", "text-gray-500", "hover:text-gray-700", "hover:border-gray-300");
+          tabCategory.classList.remove("border-primary", "text-primary");
+          panelItem.classList.remove("hidden");
+          panelCategory.classList.add("hidden");
+        });
+
+        tabCategory.addEventListener("click", () => {
+          tabCategory.classList.add("border-primary", "text-primary");
+          tabCategory.classList.remove("border-transparent", "text-gray-500", "hover:text-gray-700", "hover:border-gray-300");
+          tabItem.classList.add("border-transparent", "text-gray-500", "hover:text-gray-700", "hover:border-gray-300");
+          tabItem.classList.remove("border-primary", "text-primary");
+          panelCategory.classList.remove("hidden");
+          panelItem.classList.add("hidden");
+        });
+
+        // --- Lógica dos Formulários ---
+        promoItemForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const selectedItemId = parseInt(selectItem.value);
+          const selectedItem = menuItems.find((item) => item.id === selectedItemId);
+          const newPromo = {
+            id: Date.now(),
+            type: "item",
+            targetId: selectedItemId,
+            targetName: selectedItem.name,
+            discountType: promoItemForm.querySelector('input[name="item-discount-type"]:checked').value,
+            value: parseFloat(document.getElementById("item-discount-value").value),
+          };
+          activePromotions.push(newPromo);
+          renderActivePromotions();
+          promoItemForm.reset();
+        });
+
+        promoCategoryForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const selectedCategory = selectCategory.value;
+          const newPromo = {
+            id: Date.now(),
+            type: "category",
+            targetId: selectedCategory,
+            targetName: `Toda a categoria ${selectedCategory}`,
+            discountType: promoCategoryForm.querySelector('input[name="cat-discount-type"]:checked').value,
+            value: parseFloat(document.getElementById("cat-discount-value").value),
+          };
+          activePromotions.push(newPromo);
+          renderActivePromotions();
+          promoCategoryForm.reset();
+        });
+
+        // --- Lógica para Desativar Promoção ---
+        activePromosContainer.addEventListener("click", (e) => {
+          const deactivateBtn = e.target.closest(".deactivate-promo-btn");
+          if (deactivateBtn) {
+            const promoId = parseInt(deactivateBtn.dataset.promoId);
+            activePromotions = activePromotions.filter((p) => p.id !== promoId);
+            renderActivePromotions();
+          }
+        });
+
+        // --- Inicialização ---
+        setActiveLink();
+        populateSelects();
+        renderActivePromotions();
+      });
+    </script>
+  </body>
+</html>

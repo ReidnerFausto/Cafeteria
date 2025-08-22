@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Café Gestor</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#624e33",
+              secondary: "#14160f",
+              tertiary: "#77895b",
+              "light-bg": "#f9f9f9",
+              "card-bg": "#ffffff",
+              "accent-bg": "#edf2ea",
+              "dark-bg": "#14160f",
+            },
+            fontFamily: {
+              sans: ["Plus Jakarta Sans", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+
+  <body class="font-sans bg-light-bg leading-relaxed">
+    <section class="flex items-center justify-center min-h-screen bg-light-bg p-5">
+      <div class="w-full max-w-sm p-8 bg-card-bg rounded-xl shadow-lg border border-gray-200 text-center">
+        <h2 class="text-4xl font-bold text-primary mb-2">Café Gestor</h2>
+        <p class="text-secondary mb-8">Bem-vindo de volta! Faça login para continuar.</p>
+
+        <form id="login-form">
+          <div class="mb-4">
+            <label for="email" class="sr-only">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Email"
+              required
+              class="w-full p-3 bg-card-bg border border-gray-300 rounded-lg text-secondary placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-tertiary transition-colors"
+            />
+          </div>
+
+          <div class="mb-6">
+            <label for="password" class="sr-only">Senha</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Senha"
+              required
+              class="w-full p-3 bg-card-bg border border-gray-300 rounded-lg text-secondary placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-tertiary transition-colors"
+            />
+          </div>
+
+          <button type="submit" class="w-full text-center bg-tertiary text-card-bg py-3 rounded-lg font-bold hover:bg-[#6c7d58] transition-colors">Entrar</button>
+        </form>
+
+        <div class="mt-6">
+          <a href="#" class="text-secondary text-sm hover:text-primary hover:underline font-medium transition-colors">Esqueceu a senha?</a>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      document.getElementById("login-form").addEventListener("submit", function (event) {
+        event.preventDefault(); // Impede o envio padrão do formulário
+
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        // Simula uma validação/envio
+        console.log("Formulário de Login enviado!");
+        console.log("Email:", email);
+        console.log("Senha:", password);
+
+        // Redireciona para o dashboard após o "login"
+        window.location.href = "dashboard.html";
+      });
+    </script>
+  </body>
+</html>
