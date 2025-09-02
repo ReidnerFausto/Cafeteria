@@ -4,130 +4,49 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pedidos - Café Gestor</title>
-
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" />
-
     <script src="https://cdn.tailwindcss.com"></script>
-
     <script>
       tailwind.config = {
         theme: {
           extend: {
-            colors: {
-              primary: "#624e33",
-              secondary: "#14160f",
-              tertiary: "#77895b",
-              "light-bg": "#f9f9f9",
-              "card-bg": "#ffffff",
-              "accent-bg": "#edf2ea",
-              "dark-bg": "#14160f",
-            },
-            fontFamily: {
-              sans: ["Plus Jakarta Sans", "sans-serif"],
-            },
+            colors: { primary: "#624e33", secondary: "#14160f", tertiary: "#77895b", "light-bg": "#f9f9f9", "card-bg": "#ffffff", "accent-bg": "#edf2ea", "dark-bg": "#14160f" },
+            fontFamily: { sans: ["Plus Jakarta Sans", "sans-serif"] },
           },
         },
       };
     </script>
-  </head>
+    <script>
+      // Script Anti-Flicker para a Sidebar
+      (function () {
+        try {
+          const savedState = localStorage.getItem("sidebarState") || "open";
+          const style = document.createElement("style");
 
+          // Aplica o CSS necessário ANTES da página ser renderizada
+          // A transição é desativada para evitar uma animação estranha no carregamento
+          style.textContent = `
+        @media (min-width: 768px) {
+          #main-content {
+            transition: none !important; 
+            margin-left: ${savedState === "closed" ? "5rem" : "16rem"};
+          }
+        }
+      `;
+
+          document.head.appendChild(style);
+        } catch (e) {
+          console.error("Falha ao aplicar o estilo anti-flicker:", e);
+        }
+      })();
+    </script>
+  </head>
   <body class="font-sans bg-light-bg leading-relaxed">
     <div class="flex min-h-screen">
-      <div
-        id="sidebar"
-        class="hidden md:flex flex-col w-64 bg-card-bg p-8 border-r border-gray-200 fixed top-0 bottom-0 left-0 overflow-y-auto overflow-x-hidden transition-all duration-200 ease-in-out"
-      >
-        <div class="mb-8 flex justify-between items-center">
-          <h3 id="sidebar-title" class="text-2xl font-bold text-primary transition-all duration-200 ease-in-out whitespace-nowrap overflow-hidden">Café Gestor</h3>
-          <button id="sidebar-toggle-btn" class="text-gray-500 hover:text-secondary transition-colors duration-200 ease-in-out">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-              <path
-                fill-rule="evenodd"
-                d="M3.75 6.75h16.5a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1 0-1.5ZM3.75 12h16.5a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1 0-1.5ZM3.75 17.25h16.5a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1 0-1.5Z"
-                clip-rule="evenodd"
-              />
-            </svg>
-          </button>
-        </div>
-        <nav id="sidebar-nav" class="flex flex-col space-y-4">
-          <a href="dashboard.html" class="relative block py-3 pl-12 pr-4 rounded-lg hover:bg-accent-bg transition-colors duration-200 ease-in-out text-secondary font-medium">
-            <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.601 8.601a.75.75 0 0 1-1.06 1.06L12 5.461 3.909 13.5a.75.75 0 1 1-1.06-1.06l8.601-8.601Z" />
-              <path d="m12 7.022 6.132 6.132-1.298 1.299-5.32-5.32-5.32 5.32-1.299-1.298L12 7.022Z" />
-              <path
-                fill-rule="evenodd"
-                d="M12.558 4.774a.75.75 0 0 1 1.484.226l-.427 1.708a.75.75 0 0 1-1.484-.226l.427-1.708ZM7.5 14.25a.75.75 0 0 1 .75-.75h.75a.75.75 0 0 1 .75.75v3.75h2.25V14.25a.75.75 0 0 1 .75-.75h.75a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-.75-.75h-9a.75.75 0 0 1-.75-.75v-4.5Z"
-                clip-rule="evenodd"
-              />
-            </svg>
-            <span class="sidebar-text-js transition-all duration-200 ease-in-out whitespace-nowrap">Início</span>
-          </a>
-          <a href="pedidos.html" class="relative block py-3 pl-12 pr-4 rounded-lg bg-accent-bg font-semibold transition-colors duration-200 ease-in-out text-secondary">
-            <svg
-              class="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 flex-shrink-0"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
-            </svg>
-            <span class="sidebar-text-js transition-all duration-200 ease-in-out whitespace-nowrap">Pedidos</span>
-          </a>
-          <a href="cardapio.html" class="relative block py-3 pl-12 pr-4 rounded-lg hover:bg-accent-bg transition-colors duration-200 ease-in-out text-secondary font-medium">
-            <img
-              id="vector-0"
-              class="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 flex-shrink-0"
-              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAVCAYAAABCIB6VAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAK2SURBVHgBrVTrbRNBEJ7Zi0QQSbwxINnwg0sFXCqIU0FMBSEVxKkgTgU4HTgVxFRgU4FNBT5+oFhCxAtB4ukdvtmzjW2d8xAZabXP+Wbm25lhWiL26aPErEQ7WG4J8Qs9Gl85JvmAue/Fv3eDb508fZ4DK61VDJsqMe+TZEDC5LBOMdxYw2LELFNDKbF0vDcnbuDSOWAFZI6OsakoEHtpMZl3I6LO7ON5J2wM7cSIr4rhPTUkeC/CB6rDTwDqOWpngHzqf1DDQSwkWh1VhTkBQAEK8SwVGJ2RRD0FCUbgFLOoc7EX3l35wyYxGvJv3h1+cj1bXq9uPiwcQrEiZCgzGGhIxzEChKvg/dDAzc1yoWNk1Pw8uGrCQArwtiFfYRtby7+s/ZJkKSpvdfAPEtj6jlvrtYrh7bvJjR/YhYxnnO2HRBw4c3xXJ2lVsjD7U+rE7oDgnbXq6sYtrS+r2cmkHbhGko8LFsj/E5x/HjqcfjhzeI6qq3qRtcHU2BQwiGjwIVwnUJ6SUnOgubZrG8UbsO1bCvY4qnFCwKABpZO/7oKJZGAFwYaqZQPg1xFrVuZjD2ZncgHp67haNpvDLDuBUhWacmA1irlcz2hyhjpmI4XWg7sUueQhmdqCNPwJco8HZHLKjNqU8gCOVUVrVARR18spLmaloi6hIuEya8gn19oCg0vvmsVnxW6okDPehsRWOZxG3c93L1axDB5wFqWKAw4Y87n8lJgTORKM3Pmx47yMHKBQ637ECqJ97VJlqFqFKPGXWp0IFo2KT5b1klwuVEJF/pSuPrgEDXqGDqnjN49JDaDbDcfnt/Y4eK0fCUqwiAMgxK8a/fl08mF0jTDdIPjIc80SdKzt4AlLH6Q3LwdfB/4LWAmAkavwsqftEhzvieftZdzdSSaNKozSrdN9inYwe7uGFuQvds1XRc8UyxEAAAAASUVORKCYII="
-            />
-            <span class="sidebar-text-js transition-all duration-200 ease-in-out whitespace-nowrap">Cardápio</span>
-          </a>
-          <a href="promocoes.html" class="relative block py-3 pl-12 pr-4 rounded-lg hover:bg-accent-bg transition-colors duration-200 ease-in-out text-secondary font-medium">
-            <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-              <path
-                fill-rule="evenodd"
-                d="M5.25 2.25a3 3 0 0 0-3 3v4.303a3 3 0 0 0 .879 2.121l9.58 9.58a3 3 0 0 0 4.242 0l4.303-4.303a3 3 0 0 0 0-4.242l-9.58-9.58A3 3 0 0 0 9.553 2.25H5.25ZM6 6a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 0 1.5H6.75A.75.75 0 0 1 6 6Z"
-                clip-rule="evenodd"
-              />
-            </svg>
-            <span class="sidebar-text-js transition-all duration-200 ease-in-out whitespace-nowrap">Promoções</span>
-          </a>
-          <a href="configuracoes.html" class="relative block py-3 pl-12 pr-4 rounded-lg hover:bg-accent-bg transition-colors duration-200 ease-in-out text-secondary font-medium">
-            <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-              <path
-                fill-rule="evenodd"
-                d="M11.078 2.25c-.917 0-1.699.663-1.85 1.567L9.05 5.85c-.09.55-.525.95-1.078.95H4.88c-.969 0-1.75.781-1.75 1.75v3.69c0 .553.398.99.942 1.078l2.128.355c.53.088.922.527.922 1.078v3.69c0 .969.781 1.75 1.75 1.75h3.69c.553 0 .99.398 1.078.942l.355 2.128c.088.53.527.922 1.078.922h3.69c.969 0 1.75-.781 1.75-1.75v-3.69c0-.553-.398-.99-.942-1.078l-2.128-.355c-.53-.088-.922-.527-.922-1.078V9.19c0-.969-.781-1.75-1.75-1.75h-3.69c-.553 0-.99-.398-1.078-.942L12.93 3.817c-.151-.904-.933-1.567-1.85-1.567h-.004ZM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"
-                clip-rule="evenodd"
-              />
-            </svg>
-            <span class="sidebar-text-js transition-all duration-200 ease-in-out whitespace-nowrap">Configurações</span>
-          </a>
-        </nav>
-        <div class="mt-auto pt-8 border-t border-gray-200">
-          <a href="login.html" class="relative block py-3 pl-12 pr-4 rounded-lg hover:bg-accent-bg transition-colors duration-200 ease-in-out text-red-500 font-medium">
-            <svg
-              class="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 flex-shrink-0"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6.75a2.25 2.25 0 0 1 2.25 2.25v13.5a2.25 2.25 0 0 1-2.25 2.25H10.5a2.25 2.25 0 0 1-2.25-2.25V15m-3.75-3 3.75-3m-3.75 3h11.25"
-              />
-            </svg>
-            <span class="sidebar-text-js transition-all duration-200 ease-in-out whitespace-nowrap">Sair</span>
-          </a>
-        </div>
-      </div>
+      <div id="sidebar-placeholder"></div>
 
-      <main id="main-content" class="flex-1 p-4 md:p-10 md:ml-64 transition-all duration-200 ease-in-out">
+      <main id="main-content" class="flex-1 p-4 md:p-10 transition-all duration-200 ease-in-out">
         <h1 class="text-3xl md:text-4xl font-bold text-secondary mb-8">Todos os Pedidos</h1>
-
         <div class="mb-6">
           <label for="order-id-filter" class="block text-sm font-medium text-gray-700 mb-2">Filtrar por ID do Pedido:</label>
           <div class="relative">
@@ -148,7 +67,6 @@
             />
           </div>
         </div>
-
         <div class="bg-card-bg rounded-lg shadow-sm border border-[#d6e5d1] overflow-hidden">
           <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
@@ -166,73 +84,13 @@
       </main>
     </div>
 
-    <div
-      id="order-details-modal"
-      class="fixed inset-0 bg-gray-900 bg-opacity-50 hidden items-center justify-center p-4 z-50 transition-all duration-200 ease-in-out opacity-0 scale-95 flex"
-    >
-      <div class="relative bg-card-bg rounded-xl shadow-2xl w-full max-w-lg mx-auto flex flex-col max-h-[90vh]">
-        <div class="flex justify-between items-center p-4 border-b border-gray-200">
-          <h2 id="modal-order-title" class="text-xl font-semibold text-secondary">Detalhes do Pedido</h2>
-          <button data-close-modal="order-details-modal" class="text-gray-500 hover:text-secondary text-2xl font-bold leading-none">&times;</button>
-        </div>
-        <div class="p-6 space-y-4 overflow-y-auto">
-          <div>
-            <p class="text-sm font-medium text-secondary mb-2">Itens do Pedido:</p>
-            <div id="modal-order-items" class="space-y-3"></div>
-          </div>
-        </div>
-        <div class="flex justify-between items-center p-4 bg-gray-50 rounded-b-xl border-t">
-          <span class="text-base font-bold text-secondary">Total:</span>
-          <span id="modal-order-total" class="text-xl font-bold text-tertiary"></span>
-          <button data-close-modal="order-details-modal" class="bg-gray-200 text-gray-800 font-medium py-2 px-6 rounded-lg shadow-sm hover:bg-gray-300 transition-colors">
-            Fechar
-          </button>
-        </div>
-      </div>
-    </div>
-
+    <script src="scripts/components.js"></script>
     <script>
       document.addEventListener("DOMContentLoaded", () => {
-        const sidebar = document.getElementById("sidebar");
-        const mainContent = document.getElementById("main-content");
-        const sidebarToggleBtn = document.getElementById("sidebar-toggle-btn");
-        const sidebarTextElements = document.querySelectorAll(".sidebar-text-js");
-        const sidebarTitle = document.getElementById("sidebar-title");
+        loadSidebar();
+
+        // Em seguida, executa a lógica específica desta página
         const orderDetailsModal = document.getElementById("order-details-modal");
-
-        function toggleSidebar() {
-          const isCurrentlyExpanded = sidebar.classList.contains("w-64");
-          if (isCurrentlyExpanded) {
-            sidebar.classList.remove("w-64", "p-8");
-            sidebar.classList.add("w-20", "p-4");
-            mainContent.classList.remove("md:ml-64");
-            mainContent.classList.add("md:ml-20");
-            sidebarTitle.classList.add("opacity-0", "max-w-0");
-            sidebarTextElements.forEach((text) => text.classList.add("opacity-0", "max-w-0"));
-          } else {
-            sidebar.classList.remove("w-20", "p-4");
-            sidebar.classList.add("w-64", "p-8");
-            mainContent.classList.remove("md:ml-20");
-            mainContent.classList.add("md:ml-64");
-            sidebarTitle.classList.remove("opacity-0", "max-w-0");
-            sidebarTextElements.forEach((text) => text.classList.remove("opacity-0", "max-w-0"));
-          }
-        }
-        if (sidebarToggleBtn) sidebarToggleBtn.addEventListener("click", toggleSidebar);
-
-        function setActiveLink() {
-          const currentPage = window.location.pathname.split("/").pop() || "dashboard.html";
-          const navLinks = document.querySelectorAll("#sidebar-nav a");
-          navLinks.forEach((link) => {
-            const linkPage = link.getAttribute("href").split("/").pop();
-            link.classList.remove("bg-accent-bg", "font-semibold");
-            link.classList.add("font-medium");
-            if (linkPage === currentPage) {
-              link.classList.remove("font-medium");
-              link.classList.add("bg-accent-bg", "font-semibold");
-            }
-          });
-        }
 
         function showModal(modal) {
           modal.classList.remove("hidden");
@@ -318,11 +176,11 @@
           ordersToRender.forEach((order) => {
             const row = document.createElement("tr");
             row.innerHTML = `
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-secondary">${order.id}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-secondary font-medium">R$ ${order.total.toFixed(2).replace(".", ",")}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <button data-order-id="${order.id}" class="view-details-btn text-primary hover:text-tertiary">Ver Detalhes</button>
-                    </td>`;
+                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-secondary">${order.id}</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-secondary font-medium">R$ ${order.total.toFixed(2).replace(".", ",")}</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                          <button data-order-id="${order.id}" class="view-details-btn text-primary hover:text-tertiary">Ver Detalhes</button>
+                      </td>`;
             tableBody.appendChild(row);
           });
         }
@@ -341,11 +199,11 @@
             const itemDiv = document.createElement("div");
             itemDiv.className = "flex justify-between items-start";
             itemDiv.innerHTML = `
-                    <div>
-                        <p class="font-semibold text-secondary">${item.qty}x ${item.name}</p>
-                        ${item.options ? `<p class="text-xs text-gray-500 pl-4">- ${item.options}</p>` : ""}
-                    </div>
-                    <p class="font-medium text-secondary">R$ ${(item.qty * item.price).toFixed(2).replace(".", ",")}</p>`;
+                      <div>
+                          <p class="font-semibold text-secondary">${item.qty}x ${item.name}</p>
+                          ${item.options ? `<p class="text-xs text-gray-500 pl-4">- ${item.options}</p>` : ""}
+                      </div>
+                      <p class="font-medium text-secondary">R$ ${(item.qty * item.price).toFixed(2).replace(".", ",")}</p>`;
             itemsContainer.appendChild(itemDiv);
           });
           showModal(orderDetailsModal);
@@ -375,7 +233,6 @@
           if (modal) btn.addEventListener("click", () => hideModal(modal));
         });
 
-        setActiveLink();
         renderOrdersTable(allOrders);
       });
     </script>
