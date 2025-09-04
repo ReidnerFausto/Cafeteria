@@ -34,24 +34,29 @@ title: DIAGRAMA DE ENTIDADE
 
 classDiagram
     class Usuario {
+        - id: long
         - email: String
         - senha: String
-        + fazerLogin(): boolean
+        + getId(): long
+        + setId(id: long)
         + getEmail(): String
         + setEmail(email: String)
         + getSenha(): String
         + setSenha(senha: String)
+        + getTipo(): String
+        + setTipo(tipo: String)
     }
 
     class ItemMenu {
-        - id: int
+        - id: long
         - nome: String
         - categoria: String
         - descricao: String
         - preco: float
         - imagem: String
-        + getId(): int
-        + setId(id: int)
+        - quantidadeEstoque: int
+        + getId(): long
+        + setId(id: long)
         + getNome(): String
         + setNome(nome: String)
         + getCategoria(): String
@@ -62,12 +67,17 @@ classDiagram
         + setPreco(preco: float)
         + getImagem(): String
         + setImagem(imagem: String)
+        + getQuantidadeEstoque(): int
+        + setQuantidadeEstoque(qtd: int)
         + atualizarPreco(preco: float)
     }
 
     class ItemPedido {
+        - id: long
         - quantidade: int
         - precoUnitario: float
+        + getId(): long
+        + setId(id: long)
         + getQuantidade(): int
         + setQuantidade(qtd: int)
         + getPrecoUnitario(): float
@@ -76,11 +86,11 @@ classDiagram
     }
 
     class Pedido {
-        - id: String
+        - id: long
         - total: float
         - itens: List~ItemPedido~
-        + getId(): String
-        + setId(id: String)
+        + getId(): long
+        + setId(id: long)
         + getTotal(): float
         + setTotal(total: float)
         + getItens(): List~ItemPedido~
@@ -90,17 +100,30 @@ classDiagram
         + calcularTotal(): float
     }
 
-    class Estoque {
-        - itensEstoque: Map~ItemMenu, int~
-        + atualizarEstoque(item: ItemMenu, quantidade: int)
-        + consultarEstoque(item: ItemMenu): int
+    class Promocoes {
+        - id: long
+        - nome: String
+        - descricao: String
+        - descontoPercentual: float
+        - descontoValor: float
+        - ativo: boolean
+        + getId(): long
+        + setId(id: long)
+        + getNome(): String
+        + setNome(nome: String)
+        + getDescricao(): String
+        + setDescricao(descricao: String)
+        + getDescontoPercentual(): float
+        + setDescontoPercentual(desconto: float)
+        + getDescontoValor(): float
+        + setDescontoValor(desconto: float)
+        + isAtiva(): boolean
+        + ativar()
+        + desativar()
     }
 
-    %% Relações
-    Usuario "1" --> "*" Pedido : realiza
+    %% Relacionamentos
     Pedido "1" --> "*" ItemPedido : contem
     ItemPedido "*" --> "1" ItemMenu : referencia
-    Pedido "*" ..> "1" Estoque : atualiza/consulta
-
-
+    ItemMenu "*" --> "*" Promocoes : participa
 ```
