@@ -1,19 +1,30 @@
 package br.univille.fabsoft_backend.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.hibernate.annotations.ManyToAny;
+
 import jakarta.annotation.Generated;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 
 @Entity
 public class ItemMenu {
 
     @Id
-    @GereratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String nome;
     private String descricao;
     private float preco;
     private String categoria;
+    @ManyToMany
+    private List<ItemPedido> itens = new ArrayList<>(); 
 
 
     // Getters & Setters

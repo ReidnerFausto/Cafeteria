@@ -1,8 +1,15 @@
 package br.univille.fabsoft_backend.entity;
 
+import java.util.*;
+
 import jakarta.annotation.Generated;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Pedido {
@@ -11,7 +18,9 @@ public class Pedido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private long total;
-    private List<ItemPedido> itens;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "pedido_id")
+    private List<ItemPedido> itens = new ArrayList<>(); 
 
     // Getters & Setters
     public long getId() {
