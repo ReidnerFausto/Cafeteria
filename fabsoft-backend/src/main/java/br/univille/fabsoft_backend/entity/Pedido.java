@@ -20,24 +20,29 @@ public class Pedido {
     private long total;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "pedido_id")
-    private List<ItemPedido> itens = new ArrayList<>(); 
+    private List<ItemPedido> itens = new ArrayList<>();
 
     // Getters & Setters
     public long getId() {
         return id;
     }
+
     public void setId(long id) {
         this.id = id;
     }
+
     public long getTotal() {
         return total;
     }
+
     public void setTotal(long total) {
         this.total = total;
     }
+
     public List<ItemPedido> getItens() {
         return itens;
     }
+
     public void setItens(List<ItemPedido> itens) {
         this.itens = itens;
     }

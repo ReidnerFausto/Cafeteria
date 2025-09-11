@@ -6,7 +6,8 @@ import org.springframework.stereotype.Repository;
 import br.univille.fabsoft_backend.entity.Pedido;
 
 @Repository
-public interface PedidoRepository extends JpaRepository<Pedido, Long>{
+public interface PedidoRepository extends JpaRepository<Pedido, Long> {
 
-    List<Pedido> findbyIdAndTotalAndDescricao(long id, float total, String descricao);
+    List<Pedido> findByIdAndTotal(long id, long total);
+
 }

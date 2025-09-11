@@ -20,25 +20,34 @@ public class ItemPedido {
     private int quantidade;
     private float precoUnitario;
     @ManyToOne
-    @JoinColumn(name = "Item_id")
-    private List<ItemPedido> itens = new ArrayList<>(); 
+    @JoinColumn(name = "pedido_id") // Usa uma chave estrangeira para o pedido?
+    private Pedido pedido;
+
+    @ManyToOne
+    @JoinColumn(name = "item_menu_id")
+    private ItemMenu itemMenu;
 
     // Getters & Setters
     public long getId() {
         return id;
     }
+
     public void setId(long id) {
         this.id = id;
     }
+
     public int getQuantidade() {
         return quantidade;
     }
+
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
     }
+
     public float getPrecoUnitario() {
         return precoUnitario;
     }
+
     public void setPrecoUnitario(float precoUnitario) {
         this.precoUnitario = precoUnitario;
     }
