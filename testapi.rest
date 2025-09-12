@@ -2,3 +2,11 @@
 
 GET http://localhost:8080/api/v1/itensmenu
 Content-Type: application/json
+
+### POST ItensMenu
+
+POST http://localhost:8080/api/v1/itensmenu
+Content-Type: application/json
+
+{ "id":0 , "nome":"Café especial", "descricao":"Um cafe muito foda", "preco":999.00, "categoria":"Grande de mais"}
+

@@ -6,4 +6,6 @@ import br.univille.fabsoft_backend.entity.ItemMenu;
 
 public interface ItemMenuService {
     List<ItemMenu> getAll();
+
+    ItemMenu save(ItemMenu itemMenu);
 }

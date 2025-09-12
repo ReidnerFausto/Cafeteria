@@ -20,4 +20,9 @@ public class ItemMenuServiceImpl implements ItemMenuService {
         return repository.findAll();
     }
 
+    @Override
+    public ItemMenu save(ItemMenu itemMenu) {
+        return repository.save(itemMenu);
+    }
+
 }
