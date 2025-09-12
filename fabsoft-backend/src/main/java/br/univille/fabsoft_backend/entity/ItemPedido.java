@@ -1,9 +1,5 @@
 package br.univille.fabsoft_backend.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import jakarta.annotation.Generated;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

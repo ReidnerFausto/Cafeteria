@@ -2,7 +2,6 @@ package br.univille.fabsoft_backend.entity;
 
 import java.util.*;
 
-import jakarta.annotation.Generated;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
