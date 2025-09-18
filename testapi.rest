@@ -1,12 +1,19 @@
-### GET ItensMenu
+### GET ItensMenu metodo que retorna os valores presentes no banco de dados
 
 GET http://localhost:8080/api/v1/itensmenu
 Content-Type: application/json
 
-### POST ItensMenu
+### POST ItensMenu metodo que adiciona os valores ao banco de dados
 
 POST http://localhost:8080/api/v1/itensmenu
 Content-Type: application/json
 
-{ "id":0 , "nome":"Café especial", "descricao":"Um cafe muito foda", "preco":999.00, "categoria":"Grande de mais"}
+{ "id":0 , "nome":"Cafe especial", "descricao":"Um cafe muito foda", "preco":999.00, "categoria":"Grande de mais"}
+
+### PUT ItensMenu metodo que altera os valores que ja existem no banco de dados
+
+PUT http://localhost:8080/api/v1/itensmenu/1
+Content-Type: application/json
+
+{ "id":0 , "nome":"Cafe especial", "descricao":"Um cafe muito foda", "preco":999.00, "categoria":"Grande de mais"}
 

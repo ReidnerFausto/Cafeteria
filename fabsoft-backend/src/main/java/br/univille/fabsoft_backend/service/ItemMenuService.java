@@ -8,4 +8,6 @@ public interface ItemMenuService {
     List<ItemMenu> getAll();
 
     ItemMenu save(ItemMenu itemMenu);
+
+    ItemMenu update(long id, ItemMenu itemMenu) throws Exception;
 }

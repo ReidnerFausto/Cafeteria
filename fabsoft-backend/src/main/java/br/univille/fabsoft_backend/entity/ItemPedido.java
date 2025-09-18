@@ -47,4 +47,20 @@ public class ItemPedido {
     public void setPrecoUnitario(float precoUnitario) {
         this.precoUnitario = precoUnitario;
     }
+
+    public ItemMenu getItemMenu() {
+        return itemMenu;
+    }
+
+    public void setItemMenu(ItemMenu itemMenu) {
+        this.itemMenu = itemMenu;
+    }
+
+    public Pedido getPedido() {
+        return pedido;
+    }
+
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
+    }
 }

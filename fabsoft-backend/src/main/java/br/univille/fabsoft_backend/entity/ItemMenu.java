@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
 
 
 @Entity
@@ -12,7 +13,9 @@ public class ItemMenu {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @NotBlank(message = "Nome do produto não pode ser em branco")//usado para nao permitir que um valor em branco seja salvo no banco de dados
     private String nome;
+    @NotBlank(message = "Nome do produto não pode ser em branco")
     private String descricao;
     private float preco;
     private String categoria;
