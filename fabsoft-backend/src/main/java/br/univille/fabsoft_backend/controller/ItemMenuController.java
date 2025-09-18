@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import br.univille.fabsoft_backend.entity.ItemMenu; 
 import br.univille.fabsoft_backend.service.ItemMenuService; 
 import jakarta.validation.Valid;
@@ -66,6 +68,20 @@ public class ItemMenuController {
 
         try {
             itemMenu = service.update(id, itemMenu);
+            return new ResponseEntity<ItemMenu>(itemMenu, HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    //define o id que deve ser excluido
+    public ResponseEntity<ItemMenu> delete(@PathVariable long id){
+        if(id <=0){//Se o id for menor ou igual a 0 retorna um badRequest
+            return ResponseEntity.badRequest().build();
+        }
+        try {// retorna o itemMenu que foi apagado(uma boa pratica)
+            var itemMenu = service.delete(id);
             return new ResponseEntity<ItemMenu>(itemMenu, HttpStatus.OK);
         } catch (Exception e) {
             return ResponseEntity.notFound().build();

@@ -10,4 +10,6 @@ public interface ItemMenuService {
     ItemMenu save(ItemMenu itemMenu);
 
     ItemMenu update(long id, ItemMenu itemMenu) throws Exception;
+
+    ItemMenu delete(long id) throws Exception;
 }

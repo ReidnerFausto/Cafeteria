@@ -15,21 +15,21 @@ public class ItemMenuServiceImpl implements ItemMenuService {
     @Autowired
     private ItemMenuRepository repository;
 
-    @Override
+    @Override//implementa o get
     public List<ItemMenu> getAll() {
         return repository.findAll();
     }
 
-    @Override
+    @Override //implementa o save
     public ItemMenu save(ItemMenu itemMenu) {
         return repository.save(itemMenu);
     }
 
-    @Override
+    @Override //implementa o update
     public ItemMenu update(long id, ItemMenu itemMenu) throws Exception{
         var itemAntigo = repository.getById(id);
         if(itemAntigo == null){
-            throw new Exception("Cliente inexistente");
+            throw new Exception("Item inexistente");
         }
         //Aqui voce criar um set e get para cada variavel que pode ser atualizada com excecao do Id o usuario nao deve ter permissao de atualizar a chave primaria
         itemAntigo.setNome(itemMenu.getNome());
@@ -39,6 +39,17 @@ public class ItemMenuServiceImpl implements ItemMenuService {
 
         repository.save(itemAntigo);//Salva a alteracao no banco de dados
 
+        return itemAntigo;
+    }
+
+    @Override // implemente o delete
+    public ItemMenu delete(long id) throws Exception {
+        var itemAntigo = repository.getById(id);
+        if(itemAntigo == null){
+            throw new Exception("Item inexistente");
+        }
+
+        repository.delete(itemAntigo);
         return itemAntigo;
     }
 }
