@@ -36,6 +36,7 @@ public class ItemMenuController {
 
         return new ResponseEntity<List<ItemMenu>>(listaItemMenu, HttpStatus.OK);
     }
+    
     //Post salva o valor no banco de dados
     @PostMapping                       //@valid força o spring a fazer a validacao dos parametros que foram especificados na entidade
     public ResponseEntity<ItemMenu> save(@Valid @RequestBody ItemMenu itemMenu, BindingResult result) {

@@ -42,7 +42,7 @@ public class ItemMenuServiceImpl implements ItemMenuService {
         return itemAntigo;
     }
 
-    @Override // implemente o delete
+    @Override // implementa o delete
     public ItemMenu delete(long id) throws Exception {
         var itemAntigo = repository.getById(id);
         if(itemAntigo == null){

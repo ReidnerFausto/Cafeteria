@@ -1,9 +1,12 @@
 package br.univille.fabsoft_backend.entity;
 
-import java.util.*;
+import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -13,29 +16,31 @@ import jakarta.persistence.OneToMany;
 @Entity
 public class Pedido {
 
+    public enum StatusPedido {
+        ABERTO, FINALIZADO
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private long total;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "pedido_id")
-    private List<ItemPedido> itens = new ArrayList<>();
 
-    // Getters & Setters
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "pedido_id")
+    private List<ItemPedido> itens;
+
+    private double total;
+
+    @Enumerated(EnumType.STRING)
+    private StatusPedido status;
+
+    // GETTERS E SETTERS
+
     public long getId() {
         return id;
     }
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public long getTotal() {
-        return total;
-    }
-
-    public void setTotal(long total) {
-        this.total = total;
     }
 
     public List<ItemPedido> getItens() {
@@ -46,4 +51,19 @@ public class Pedido {
         this.itens = itens;
     }
 
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
+
+    public StatusPedido getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusPedido status) {
+        this.status = status;
+    }
 }

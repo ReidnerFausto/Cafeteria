@@ -1,6 +1,7 @@
 package br.univille.fabsoft_backend.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -13,17 +14,16 @@ public class ItemPedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private int quantidade;
-    private float precoUnitario;
-    @ManyToOne
-    @JoinColumn(name = "pedido_id") // Usa uma chave estrangeira para o pedido?
-    private Pedido pedido;
 
-    @ManyToOne
+    private int quantidade;
+    private double precoUnitario;
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "item_menu_id")
     private ItemMenu itemMenu;
 
-    // Getters & Setters
+    // GETTERS E SETTERS
+
     public long getId() {
         return id;
     }
@@ -40,11 +40,11 @@ public class ItemPedido {
         this.quantidade = quantidade;
     }
 
-    public float getPrecoUnitario() {
+    public double getPrecoUnitario() {
         return precoUnitario;
     }
 
-    public void setPrecoUnitario(float precoUnitario) {
+    public void setPrecoUnitario(double precoUnitario) {
         this.precoUnitario = precoUnitario;
     }
 
@@ -54,13 +54,5 @@ public class ItemPedido {
 
     public void setItemMenu(ItemMenu itemMenu) {
         this.itemMenu = itemMenu;
-    }
-
-    public Pedido getPedido() {
-        return pedido;
-    }
-
-    public void setPedido(Pedido pedido) {
-        this.pedido = pedido;
     }
 }
