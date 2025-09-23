@@ -75,6 +75,18 @@ public class ItemMenuController {
         }
     }
 
+    // PUT para atualizar apenas a disponibilidade
+    @PutMapping("/{id}/disponibilidade")
+    public ResponseEntity<ItemMenu> atualizarDisponibilidade(@PathVariable long id, @RequestBody boolean disponibilidade) {
+        try {
+            ItemMenu itemAtualizado = service.atualizarDisponibilidade(id, disponibilidade);
+            return new ResponseEntity<>(itemAtualizado, HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
     @DeleteMapping("/{id}")
     //define o id que deve ser excluido
     public ResponseEntity<ItemMenu> delete(@PathVariable long id){

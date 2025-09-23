@@ -1,5 +1,7 @@
 package br.univille.fabsoft_backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -8,17 +10,20 @@ import jakarta.validation.constraints.NotBlank;
 
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ItemMenu {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @NotBlank(message = "Nome do produto não pode ser em branco")//usado para nao permitir que um valor em branco seja salvo no banco de dados
+    @NotBlank(message = "Nome do produto não pode ser em branco")//usado para não permitir que um valor em branco seja salvo no banco de dados
     private String nome;
-    @NotBlank(message = "Nome do produto não pode ser em branco")
+    @NotBlank(message = "Descrição do produto não pode ser em branco")
     private String descricao;
     private float preco;
     private String categoria;
+
+    private boolean disponibilidade; //Define se o produto esta disponivel ou não
 
     // Getters & Setters
     public long getId() {
@@ -59,6 +64,14 @@ public class ItemMenu {
 
     public void setCategoria(String categoria) {
         this.categoria = categoria;
+    }
+
+    public boolean getDisponibilidade() {
+        return disponibilidade;
+    }
+
+    public void setDisponibilidade(boolean disponibilidade) {
+        this.disponibilidade = disponibilidade;
     }
 
 }
