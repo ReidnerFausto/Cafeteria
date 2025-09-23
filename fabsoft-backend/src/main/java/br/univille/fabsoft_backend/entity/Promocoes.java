@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Promocoes {
@@ -15,7 +17,18 @@ public class Promocoes {
     private String descricao;
     private float descontoPercentual;
     private float descontoValorFixo;
-    private boolean ativo;
+    private boolean status;
+    @ManyToOne
+    @JoinColumn(name = "item_menu_id")
+    private ItemMenu itemMenu;
+
+    public ItemMenu getItemMenu() {
+        return itemMenu;
+    }
+
+    public void setItemMenu(ItemMenu itemMenu) {
+        this.itemMenu = itemMenu;
+    }
 
     // Getters & Setters
     public long getId() {
@@ -58,11 +71,11 @@ public class Promocoes {
         this.descontoValorFixo = descontoValorFixo;
     }
 
-    public boolean isAtivo() {
-        return ativo;
+    public boolean getStatus() {
+        return status;
     }
 
-    public void setAtivo(boolean ativo) {
-        this.ativo = ativo;
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 }

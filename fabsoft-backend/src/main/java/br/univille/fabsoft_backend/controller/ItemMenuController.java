@@ -45,9 +45,7 @@ public class ItemMenuController {
         }
         if (result.hasErrors()) {
             HttpHeaders headers = new HttpHeaders();
-            String errorMessages = result.getAllErrors().stream()
-                    .map(error -> error.getDefaultMessage())
-                    .collect(Collectors.joining(" "));
+            String errorMessages = result.getAllErrors().stream().map(error -> error.getDefaultMessage()).collect(Collectors.joining(" "));
             headers.add("Erro", errorMessages);
             return new ResponseEntity<ItemMenu>(itemMenu,headers,HttpStatus.BAD_REQUEST);
         }// forma performatica do spring reconhecer e imprimir os erros que foram feitos no entity

@@ -9,10 +9,10 @@ import br.univille.fabsoft_backend.entity.Promocoes;
 
 @Repository
 public interface PromocoesRepository extends JpaRepository<Promocoes, Long> {
-    List<Promocoes> findByAtivoTrue(); // retorna as promcoes ativas
+    List<Promocoes> findByStatusTrue(); // retorna as promcoes ativas
 
-    List<Promocoes> findByAtivoFalse(); // retorna as promocoes inativas
+    List<Promocoes> findByStatusFalse(); // retorna as promocoes inativas
 
-    List<Promocoes> findByAtivoTrueAndNomeContainingIgnoreCase(String nome);
+    List<Promocoes> findByStatusTrueAndNomeContainingIgnoreCase(String nome);
 
 }
