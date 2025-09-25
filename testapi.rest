@@ -1,19 +1,142 @@
-### GET ItensMenu metodo que retorna os valores presentes no banco de dados
+////////////////////////// ItemMenu tests //////////////////////////
+
+### GET ItensMenu - retorna todos os itens do banco de dados
 GET http://localhost:8080/api/v1/itensmenu
 Content-Type: application/json
 
-### POST ItensMenu metodo que adiciona os valores ao banco de dados
+### POST ItensMenu - adiciona um novo item ao banco de dados
 POST http://localhost:8080/api/v1/itensmenu
 Content-Type: application/json
 
-{ "id":0 , "nome":"Cafe especial", "descricao":"Um cafe muito foda", "preco":999.00, "categoria":"Grande de mais"}
+{
+  "nome": "Cafe especial",
+  "descricao": "Um cafe muito foda",
+  "preco": 999.00,
+  "categoria": "Grande de mais",
+  "disponibilidade": true
+}
 
-### PUT ItensMenu metodo que altera os valores que ja existem no banco de dados
+### PUT ItensMenu - altera os campos de um item já existente
 PUT http://localhost:8080/api/v1/itensmenu/1
 Content-Type: application/json
 
-{ "id":0 , "nome":"Cafe especial", "descricao":"Um cafe muito foda", "preco":999.00, "categoria":"Grande de mais"}
+{
+  "nome": "Cafe nada especial",
+  "descricao": "Um cafe mediocre",
+  "preco": 500.00,
+  "categoria": "não tão grande",
+  "disponibilidade": true
+}
 
-### DELETE ItensMenu metodo que deleta valores que ja existem no banco de dados
-DELETE  http://localhost:8080/api/v1/itensmenu/1
+### PUT ItensMenu Disponibilidade - atualiza apenas a disponibilidade (ex.: switch no front)
+PUT http://localhost:8080/api/v1/itensmenu/1/disponibilidade
 Content-Type: application/json
+
+false
+
+
+### DELETE ItensMenu - deleta um item existente
+DELETE http://localhost:8080/api/v1/itensmenu/1
+Content-Type: application/json
+
+////////////////////////// Usuario tests //////////////////////////
+
+### GET Usuarios - retorna os valores presentes no banco de dados
+GET http://localhost:8080/api/v1/usuarios
+Content-Type: application/json
+
+### POST Usuarios - adiciona os valores ao banco de dados
+POST http://localhost:8080/api/v1/usuarios
+Content-Type: application/json
+
+{
+  "id": 0,
+  "email": "brunoDeud@gmail.com",
+  "senha": "abacate3"
+}
+
+### PUT Usuarios - altera os valores que já existem no banco de dados
+PUT http://localhost:8080/api/v1/usuarios/1
+Content-Type: application/json
+
+{
+  "id": 0,
+  "email": "reidnerFausto@gmail.com",
+  "senha": "abobora5"
+}
+
+### DELETE Usuarios - deleta valores que já existem no banco de dados
+DELETE http://localhost:8080/api/v1/usuarios/1
+Content-Type: application/json
+
+
+////////////////////////// Pedido tests //////////////////////////
+
+### GET pedidos - retorna os valores presentes no banco de dados
+GET http://localhost:8080/api/v1/pedidos
+Content-Type: application/json
+
+### POST pedidos - adiciona os valores ao banco de dados
+POST http://localhost:8080/api/v1/pedidos
+Content-Type: application/json
+
+{
+  "itens": [
+    { "quantidade": 2, "itemMenu": { "id": 1 } },
+    { "quantidade": 1, "itemMenu": { "id": 2 } }
+  ]
+}
+
+### PUT pedidos - altera os valores que já existem no banco de dados
+PUT http://localhost:8080/api/v1/pedidos/1
+Content-Type: application/json
+
+{
+  "itens": [
+    { "quantidade": 3, "itemMenu": { "id": 1 } },
+    { "quantidade": 2, "itemMenu": { "id": 2 } }
+  ]
+}
+
+### PUT pedidos finalizar - finaliza o pedido e calcula total
+PUT http://localhost:8080/api/v1/pedidos/1/finalizar
+Content-Type: application/json
+
+
+////////////////////////// Promocoes tests //////////////////////////
+
+### GET Promocoes - retorna os valores presentes no banco de dados
+GET http://localhost:8080/api/v1/promocoes
+Content-Type: application/json
+
+### POST Promocoes - adiciona os valores ao banco de dados
+POST http://localhost:8080/api/v1/promocoes
+Content-Type: application/json
+
+{
+  "nome": "Promoção de Café",
+  "descricao": "Desconto especial para cafés",
+  "descontoPercentual": 20.0,
+  "descontoValorFixo": 0.0,
+  "status": true,
+  "itemMenu": {"id": 1}
+}
+
+### PUT Promocoes - altera os valores que já existem no banco de dados
+PUT http://localhost:8080/api/v1/promocoes/1
+Content-Type: application/json
+
+{
+  "nome": "Promoção Café Premium",
+  "descricao": "Desconto atualizado para cafés premium",
+  "descontoPercentual": 0.0,
+  "descontoValorFixo": 100.0,
+  "status": true,
+  "itemMenu": {"id": 1}
+}
+
+### PUT Promocoes - altera apenas o status (ativo/inativo)
+PUT http://localhost:8080/api/v1/promocoes/1/status
+Content-Type: application/json
+
+false
