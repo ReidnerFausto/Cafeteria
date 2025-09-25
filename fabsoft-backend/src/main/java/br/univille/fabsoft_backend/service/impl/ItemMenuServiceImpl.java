@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.univille.fabsoft_backend.entity.ItemMenu;
+import br.univille.fabsoft_backend.entity.Promocoes;
 import br.univille.fabsoft_backend.repository.ItemMenuRepository;
 import br.univille.fabsoft_backend.service.ItemMenuService;
 
@@ -13,58 +14,76 @@ import br.univille.fabsoft_backend.service.ItemMenuService;
 public class ItemMenuServiceImpl implements ItemMenuService {
 
     @Autowired
-    private ItemMenuRepository repository; // injeta o repositório que conversa com o banco
+    private ItemMenuRepository repository;
 
-    @Override // retorna todos os itens do menu
+    @Override
     public List<ItemMenu> getAll() {
-        return repository.findAll();
+        List<ItemMenu> itens = repository.findAll();
+
+        for (ItemMenu item : itens) {
+            if (item.getPrecoOriginal() == 0) {
+                item.setPrecoOriginal(item.getPreco());
+            }
+
+            float precoBase = item.getPrecoOriginal();
+
+            if (item.getPromocoes() != null) {
+                for (Promocoes promo : item.getPromocoes()) {
+                    if (promo.getStatus()) {
+                        if (promo.getDescontoPercentual() > 0) {
+                            precoBase = precoBase * (1 - promo.getDescontoPercentual() / 100);
+                        } else if (promo.getDescontoValorFixo() > 0) {
+                            precoBase = precoBase - promo.getDescontoValorFixo();
+                        }
+                    }
+                }
+            }
+
+            item.setPreco(precoBase);
+        }
+
+        return itens;
     }
 
-    @Override // salva um novo item de menu no banco
+    @Override
     public ItemMenu save(ItemMenu itemMenu) {
+        // garante precoOriginal no momento do save
+        if (itemMenu.getPrecoOriginal() == 0) {
+            itemMenu.setPrecoOriginal(itemMenu.getPreco());
+        }
         return repository.save(itemMenu);
     }
 
-    @Override // atualiza um item já existente
+    @Override
     public ItemMenu update(long id, ItemMenu itemMenu) throws Exception {
-        // busca o item antigo pelo ID
-        var itemAntigo = repository.getById(id);
-        if(itemAntigo == null){
-            throw new Exception("Item inexistente");
-        }
-
-        // atualiza os campos que podem ser alterados (menos o ID, que é chave primária)
-        itemAntigo.setNome(itemMenu.getNome());
-        itemAntigo.setDescricao(itemMenu.getDescricao());
-        itemAntigo.setPreco(itemMenu.getPreco());
-        itemAntigo.setCategoria(itemMenu.getCategoria());
-        itemAntigo.setDisponibilidade(itemMenu.getDisponibilidade()); // agora atualiza a disponibilidade também
-
-        // salva no banco as alterações
-        repository.save(itemAntigo);
-
-        return itemAntigo; // retorna o item atualizado
-    }
-
-    //atualiza a disponibilidade do ItemMenu
-    public ItemMenu atualizarDisponibilidade(long id, boolean disponibilidade) throws Exception {
         var itemAntigo = repository.findById(id).orElseThrow(() -> new Exception("Item inexistente"));
 
+        itemAntigo.setNome(itemMenu.getNome());
+        itemAntigo.setDescricao(itemMenu.getDescricao());
+        itemAntigo.setCategoria(itemMenu.getCategoria());
+        itemAntigo.setDisponibilidade(itemMenu.getDisponibilidade());
+
+        // atualiza preco e precoOriginal caso tenha promocao ativa
+        if (itemMenu.getPreco() != itemAntigo.getPrecoOriginal()) {
+            itemAntigo.setPrecoOriginal(itemMenu.getPreco());
+        }
+
+        itemAntigo.setPreco(itemMenu.getPreco());
+
+        return repository.save(itemAntigo);
+    }
+
+    @Override
+    public ItemMenu atualizarDisponibilidade(long id, boolean disponibilidade) throws Exception {
+        var itemAntigo = repository.findById(id).orElseThrow(() -> new Exception("Item inexistente"));
         itemAntigo.setDisponibilidade(disponibilidade);
         return repository.save(itemAntigo);
     }
 
-    @Override // remove um item do banco
+    @Override
     public ItemMenu delete(long id) throws Exception {
-        var itemAntigo = repository.getById(id);
-        if(itemAntigo == null){
-            throw new Exception("Item inexistente");
-        }
-
+        var itemAntigo = repository.findById(id).orElseThrow(() -> new Exception("Item inexistente"));
         repository.delete(itemAntigo);
-        return itemAntigo; // retorna o item deletado (só pra feedback)
+        return itemAntigo;
     }
 }
-
-
-

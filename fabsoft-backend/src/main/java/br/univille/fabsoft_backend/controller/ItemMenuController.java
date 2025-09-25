@@ -64,7 +64,6 @@ public class ItemMenuController {
         if(id <=0 || itemMenu == null){
             return ResponseEntity.badRequest().build();
         }
-
         try {
             itemMenu = service.update(id, itemMenu);
             return new ResponseEntity<ItemMenu>(itemMenu, HttpStatus.OK);

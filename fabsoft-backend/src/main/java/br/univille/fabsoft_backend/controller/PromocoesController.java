@@ -10,17 +10,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.univille.fabsoft_backend.entity.Promocoes;
-import br.univille.fabsoft_backend.entity.Promocoes;
 import br.univille.fabsoft_backend.service.PromocoesService;
 import jakarta.validation.Valid;
-
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
@@ -29,53 +27,47 @@ public class PromocoesController {
 
     @Autowired
     private PromocoesService service;
-    
-    @GetMapping
-    public ResponseEntity<List<Promocoes>> getPromocoes(){
-        var listaPromocoes = service.getAll();
 
-        return new ResponseEntity<List<Promocoes>>(listaPromocoes, HttpStatus.OK);
+    @GetMapping
+    public ResponseEntity<List<Promocoes>> getPromocoes() {
+        List<Promocoes> listaPromocoes = service.getAll();
+        return ResponseEntity.ok(listaPromocoes);
     }
 
     @PostMapping
-    public ResponseEntity<Promocoes> save(@Valid @RequestBody Promocoes promocoes, BindingResult result){
-        if(promocoes == null){
+    public ResponseEntity<Promocoes> save(@Valid @RequestBody Promocoes promocoes, BindingResult result) {
+        if (promocoes == null) {
             return ResponseEntity.badRequest().build();
         }
-        if(result.hasErrors()){
+
+        if (result.hasErrors()) {
+            String errorMessages = result.getAllErrors().stream()
+                    .map(error -> error.getDefaultMessage())
+                    .collect(Collectors.joining(" "));
             HttpHeaders headers = new HttpHeaders();
-            String errorMessages = result.getAllErrors().stream().map(error -> error.getDefaultMessage()).collect(Collectors.joining(" "));
             headers.add("Erro", errorMessages);
-            return new ResponseEntity<Promocoes>(promocoes, headers, HttpStatus.BAD_REQUEST);
-        }
-        if(promocoes.getId() == 0){
-            promocoes = service.save(promocoes);
-            return new ResponseEntity<Promocoes>(promocoes, HttpStatus.OK);
+            return new ResponseEntity<>(promocoes, headers, HttpStatus.BAD_REQUEST);
         }
 
-        return ResponseEntity.badRequest().build();
+        Promocoes novaPromocao = service.save(promocoes);
+        return ResponseEntity.ok(novaPromocao);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Promocoes> update(@RequestBody Promocoes promocoes, @PathVariable long id){
-        if(id <=0 || promocoes == null){
-            return ResponseEntity.badRequest().build();
-        }
-
+    public ResponseEntity<Promocoes> update(@RequestBody Promocoes promocoes, @PathVariable long id) {
         try {
-            promocoes = service.update(id, promocoes);
-            return new ResponseEntity<Promocoes>(promocoes, HttpStatus.OK);
+            Promocoes promocaoAtualizada = service.update(id, promocoes);
+            return ResponseEntity.ok(promocaoAtualizada);
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
     }
 
-    // PUT para atualizar apenas a disponibilidade
     @PutMapping("/{id}/status")
-    public ResponseEntity<Promocoes> atualizarDisponibilidade(@PathVariable long id, @RequestBody boolean disponibilidade) {
+    public ResponseEntity<Promocoes> atualizarDisponibilidade(@PathVariable long id, @RequestBody boolean status) {
         try {
-            Promocoes statusAtualizado = service.atualizarStatus(id, disponibilidade);
-            return new ResponseEntity<>(statusAtualizado, HttpStatus.OK);
+            Promocoes promocaoAtualizada = service.atualizarStatus(id, status);
+            return ResponseEntity.ok(promocaoAtualizada);
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }

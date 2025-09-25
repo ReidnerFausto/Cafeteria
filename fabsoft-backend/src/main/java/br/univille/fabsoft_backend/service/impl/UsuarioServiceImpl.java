@@ -43,6 +43,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override // implementa o delete
     public Usuario delete(long id) throws Exception {
         var usuarioAntigo = repository.getById(id);
+        
         if(usuarioAntigo == null){
             throw new Exception("Usuario inexistente");
         }

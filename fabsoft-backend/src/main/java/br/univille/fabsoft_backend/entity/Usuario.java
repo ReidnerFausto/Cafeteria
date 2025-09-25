@@ -21,7 +21,8 @@ public class Usuario {
     @NotBlank(message = "senha não pode ser em branco")
     private String senha;
 
-    // Getters & Setters
+    // GETTERS E SETTERS
+    
     public long getId() {
         return id;
     }
