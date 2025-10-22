@@ -1,22 +1,28 @@
 package br.univille.fabsoft_backend.entity;
 
-import jakarta.annotation.Generated;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private long id;
+    @NotBlank(message = "email não pode ser em branco")//usado para não permitir que um valor em branco seja salvo no banco de dados
     private String email;
+    @NotBlank(message = "senha não pode ser em branco")
     private String senha;
 
-    // Getters & Setters
+    // GETTERS E SETTERS
+    
     public long getId() {
         return id;
     }
