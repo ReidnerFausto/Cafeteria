@@ -36,7 +36,7 @@ jobs:
 
           # Construção da imagem Docker
           # ATENÇÃO: Verifique se o caminho "./fabsoft-backend" é o diretório correto do seu Dockerfile.
-          docker build -t $IMAGE_TAG ./cafeteria/fabsoft-backend
+          docker build -t $IMAGE_TAG ./fabsoft-backend
 
           # Push da imagem para o GHCR
           docker push $IMAGE_TAG
