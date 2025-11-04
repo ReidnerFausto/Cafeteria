@@ -25,5 +25,5 @@ jobs:
       # Build and push Docker image to GitHub Container Registry
       - name: Build and Push Docker Image
         run: |
-          docker build -t ghcr.io/reidner/cafeteria/projfabsoftbackend:${{ github.run_number }} ./fabsoft-backend
-          docker push ghcr.io/reidner/cafeteria/projfabsoftbackend:${{ github.run_number }}
+          docker build -t ghcr.io/reidnerfausto/cafeteria/projfabsoftbackend:${{ github.run_number }} ./fabsoft-backend
+          docker push ghcr.io/reidnerfausto/cafeteria/projfabsoftbackend:${{ github.run_number }}
