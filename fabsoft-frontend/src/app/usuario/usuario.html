@@ -1,0 +1,18 @@
+<main class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Email</th>
+                <th>Senha</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let umUsuario of listaUsuarios">
+                <td>{{ umUsuario.id }}</td>
+                <td>{{ umUsuario.email }}</td>
+                <td>{{ umUsuario.senha }}</td>
+            </tr>
+        </tbody>
+    </table>
+</main>
