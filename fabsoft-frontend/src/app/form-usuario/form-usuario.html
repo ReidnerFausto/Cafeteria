@@ -1,0 +1,53 @@
+<main class="container mt-4">
+
+  <h2 class="mb-4">Formulário de novo Usuário</h2>
+
+  <form (ngSubmit)="onSubmit()" #usuarioForm="ngForm">
+
+    <!-- Email -->
+    <div class="mb-3">
+      <label for="email" class="form-label">Email:</label>
+
+      <input
+        type="email"
+        id="email"
+        class="form-control"
+        required
+        name="email"
+        [(ngModel)]="usuario.email"
+        #email="ngModel"
+      />
+
+      <div *ngIf="email.invalid && email.touched" class="text-danger">
+        O email é obrigatório e deve ser válido.
+      </div>
+    </div>
+
+    <!-- Senha -->
+    <div class="mb-3">
+      <label for="senha" class="form-label">Senha:</label>
+
+      <input
+        type="password"
+        id="senha"
+        class="form-control"
+        required
+        minlength="4"
+        name="senha"
+        [(ngModel)]="usuario.senha"
+        #senha="ngModel"
+      />
+
+      <div *ngIf="senha.invalid && senha.touched" class="text-danger">
+        A senha é obrigatória e deve ter no mínimo 4 caracteres.
+      </div>
+    </div>
+
+    <!-- Botão -->
+    <button class="btn btn-primary" type="submit" [disabled]="usuarioForm.invalid">
+      Salvar
+    </button>
+
+  </form>
+
+</main>
